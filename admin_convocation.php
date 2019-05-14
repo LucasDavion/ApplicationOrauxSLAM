@@ -20,7 +20,7 @@
 <div class="container">
 <div class="row">
 	<div class="col">
-		<form class="" action="Generation_convocation_script.php" method="post">
+		<form class="" action="admin_script_convocation.php" method="post">
 			<p class="text-center">Générer les convocations de tous les élèves de toutes les classes :</p>
   <div class="form-group d-flex justify-content-center">
 		<input type="submit" class="btn btn-success btn-lg" name="btn_tout-generer" value="Tout générer">
@@ -31,7 +31,7 @@
 <hr class="border border-dark" ><br>
 <div class="row">
 	<div class="col">
-		<form class="" action="Generation_convocation_script.php" method="post">
+		<form class="" action="admin_script_convocation.php" method="post">
 				<p class="text-center">Générer pour une classe :</p>
 	<div class="form-group">
 		<select name="lst_section" class="form-control">
@@ -60,7 +60,7 @@
 </form>
 	</div>
 	<div class="col">
-		<form class="" action="Generation_convocation_script.php" method="post">
+		<form class="" action="admin_script_convocation.php" method="post">
 			<p class="text-center">Générer pour un éléve:</p>
 	<div class="form-group">
 		<select name="lst_eleve" class="form-control form-group">
@@ -89,15 +89,7 @@
 	</div>
 </div>
 </div>
-
 </section>
-
-
-
-
-
-
-
 </body>
 </html>
 
