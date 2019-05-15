@@ -1,4 +1,4 @@
-# Règles pour le nom de vos scripts
+# 📜 Règles pour le nom de vos scripts
 
 Pour les noms des scripts vous devez mettre le rôle puis le type.
 Ex: 
@@ -6,7 +6,7 @@ Ex:
 - **admin**_consult_demi_journee_prof.php
 - **utilisateur**_choix.php
 
-# Règles pour le nom de vos champs de formulaire
+# 📜 Règles pour le nom de vos champs de formulaire
 
 Vous devez utiliser l'abréviation de votre champ en préfixe suivi de **```_nomduchamp```**.
 Ex :  *(pour une liste)*
@@ -23,9 +23,9 @@ Abréviations :
 ![BLABLA](https://zupimages.net/up/19/13/xdk5.png)
 
 
-# - Règles CSS -
+# 📜 Règles CSS -
 
-## Bootstrap
+## ➡️ Bootstrap
 
 Pour utiliser bootstrap ajouter l'une de ses ligne de code dans votre ```head``` puis ajouter le fichier bootstrap dans un dossier ```css```
 
@@ -39,7 +39,7 @@ Pour utiliser bootstrap ajouter l'une de ses ligne de code dans votre ```head```
 <link  rel="stylesheet"  href="css/bootstrap.min.css">
 ```
 
-## Bouton 
+## ➡️ Les Boutons 
 
 Si vous souhaitez utiliser des boutons, utilisez la classe  **```btn```** puis la couleur du bouton et sa taille,
 Ex :
@@ -65,7 +65,7 @@ Pour des bouton de **Validation**  :
 
 Pour plus d'info sur les boutons cliquer [ICI](https://getbootstrap.com/docs/4.3/components/buttons/)
 
-## Formulaire
+## ➡️ Les Formulaires
 
 Si vous souhaitez utiliser des formulaire, utilisez la classe  **```form-control```** dans vos input,
 Ex :
@@ -100,7 +100,7 @@ N'hésiter pas a copier colle se code afin de voir le rendu !*
 
 Pour plus d'info sur les formulaire cliquer [ICI]([https://getbootstrap.com/docs/4.3/components/forms/](https://getbootstrap.com/docs/4.3/components/forms/))
 
-## Tableau
+## ➡️ Les Tableaux
 
 Si vous avez besoin d'utiliser un tableau :
 
@@ -139,10 +139,10 @@ Aider vous de cet exemple pour mieux comprendre :
 
 Pour plus d'info sur les tableaux cliquer [ICI](https://getbootstrap.com/docs/4.3/content/tables/)
 
-# Utiliser des images 
+# 📜 Utiliser des images 
 
 Si vous avez besoin d'utiliser des images utiliser un dossier **```/images```** pour y placer vos images
 
-# Utiliser des fonts
+# 📜 Utiliser des fonts
 
 Si vous avez besoin d'utiliser des fonts utiliser un dossier **```/fonts```** pour y placer vos fonts
