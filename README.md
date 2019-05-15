@@ -141,8 +141,8 @@ Pour plus d'info sur les tableaux cliquer [ICI](https://getbootstrap.com/docs/4.
 
 # 📜 Utiliser des images 
 
-Si vous avez besoin d'utiliser des images utiliser un dossier **```/images```** pour y placer vos images
+Si vous avez besoin d'utiliser des images utiliser un dossier 📁 **```/images```** pour y placer vos images
 
 # 📜 Utiliser des fonts
 
-Si vous avez besoin d'utiliser des fonts utiliser un dossier **```/fonts```** pour y placer vos fonts
+Si vous avez besoin d'utiliser des fonts utiliser un dossier 📁 **```/fonts```** pour y placer vos fonts
