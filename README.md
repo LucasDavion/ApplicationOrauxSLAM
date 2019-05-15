@@ -12,10 +12,10 @@ Vous devez utiliser l'abréviation de votre champ en préfixe suivi de **```_nom
 Ex :  *(pour une liste)*
 
 ````html
-		<select name="lst_section" class="form-control">
-          <option value="test2">test2</option>
-          <option value="test1">tesst1</option>
-       </select>
+<select name="lst_section" class="form-control">
+    <option value="test2">test2</option>
+    <option value="test1">tesst1</option>
+</select>
 ````
 
 Abréviations :
@@ -52,15 +52,15 @@ Utilisez ses classe pour vos boutons
 
 Pour des bouton de **Suppression** :
 
-- ```btn btn-danger``` Bouton Rouge
+- **```btn btn-danger```** Bouton Rouge
 
 Pour des bouton de **Modification**  :
 
-- ```btn btn-info``` Bouton Bleu Cyan
+- **```btn btn-info```** Bouton Bleu Cyan
 
 Pour des bouton de **Validation**  :
 
-- ```btn btn-success``` Bouton Vert
+- **```btn btn-success```** Bouton Vert
 
 
 Pour plus d'info sur les boutons cliquer [ICI](https://getbootstrap.com/docs/4.3/components/buttons/)
@@ -141,8 +141,8 @@ Pour plus d'info sur les tableaux cliquer [ICI](https://getbootstrap.com/docs/4.
 
 # Utiliser des images 
 
-Si vous avez besoin d'utiliser des images utiliser un dossier **```images```** pour y placer vos images
+Si vous avez besoin d'utiliser des images utiliser un dossier **```/images```** pour y placer vos images
 
 # Utiliser des fonts
 
-Si vous avez besoin d'utiliser des fonts utiliser un dossier **```fonts```** pour y placer vos fonts
+Si vous avez besoin d'utiliser des fonts utiliser un dossier **```/fonts```** pour y placer vos fonts
