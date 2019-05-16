@@ -112,7 +112,7 @@ Aider vous de cet exemple pour mieux comprendre :
 
 ```html
 <table class="table table-striped text-center">
-  <thead classe="thead-dark">
+  <thead class="thead-dark">
     <tr>
       <th scope="col">#</th>
       <th scope="col">First</th>
