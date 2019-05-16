@@ -1,5 +1,5 @@
 <?php
-	include"admin_test_session.php";
+	include"connexion_app_verif.php";
 	$msg="";
 	if(isset($_GET['idElev'])==true && $_GET['idElev']>0 && isset($_GET['idEp'])==true && $_GET['idEp']>0){
 		include 'connexion_bd_gesoraux.php';

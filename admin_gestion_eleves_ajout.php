@@ -1,5 +1,5 @@
 <?php 
-	include"admin_test_session.php";
+	include"connexion_app_verif.php";
 	include"connexion_bd_gesoraux.php";
 
 	// Initialisation variable
@@ -133,124 +133,170 @@
 	<meta charset="UTF-8">
 	<meta name ="vieuwport" content="width=device-width, initial-scale-1.0">
 	<meta name="description" content="Site de gestion d'oraux">
-	<link rel="stylesheet" href="style.css">
+	<link rel="stylesheet" href="bootstrap.css">
+
 	<title>Ajout d'un élève</title>
 </head>
 <body>
-	
-	<div id="container">
-	<header>
-		<h1>Ajout d'un élève</h1>
-	</header>
-	<form action="" method="post">		
-		<?php
-			include"admin_gestion_eleves_composant_graph.php";
-		?>
-		<label><b>Bénéficiaire LV1 :</b></label><br>
-		<?php
-			if($rbt_benefLV1 == "O"){
-				echo "<input type='radio' checked name='rbt_benefLV1' id='benefLV1Oui' value='O'>Oui";
-			} else {
-				echo "<input type='radio'  name='rbt_benefLV1' id='benefLV1Oui' value='O'>Oui";
-			}
-			if($rbt_benefLV1 == "N"){
-				echo "<input type='radio' checked name='rbt_benefLV1' id='benefLV1Non' value='N'>Non";
-			} else {
-				echo "<input type='radio' name='rbt_benefLV1' id='benefLV1Non' value='N'>Non";
-			}
-		?>
-		<br><br>
-		<label><b>Bénéficiaire LV2 :</b></label><br>
-		<?php
-			if($rbt_benefLV2 == "O"){
-				echo "<input type='radio' checked name='rbt_benefLV2' id='benefLV2Oui' value='O'>Oui";
-			} else {
-				echo "<input type='radio'  name='rbt_benefLV2' id='benefLV2Oui' value='O'>Oui";
-			}
-			if($rbt_benefLV2 == "N"){
-				echo "<input type='radio' checked name='rbt_benefLV2' id='benefLV2Non' value='N'>Non";
-			} else {
-				echo "<input type='radio' name='rbt_benefLV2' id='benefLV2Non' value='N'>Non";
-			}
-		?>
-		<br><br>
-		<label><b>Dérogation LV1 :</b></label><br>
-		<?php
-			if($rbt_derogLV1 == "O"){
-				echo "<input type='radio' checked name='rbt_derogLV1' id='derogLV1Oui' value='O'>Oui";
-			} else {
-				echo "<input type='radio'  name='rbt_derogLV1' id='derogLV1Oui' value='O'>Oui";
-			}
-			if($rbt_derogLV1 == "N"){
-				echo "<input type='radio' checked name='rbt_derogLV1' id='derogLV1Non' value='N'>Non";
-			} else {
-				echo "<input type='radio' name='rbt_derogLV1' id='derogLV1Non' value='N'>Non";
-			}
-		?>
-		<br><br>
-		<label><b>Dérogation LV2 :</b></label><br>
-		<?php
-			if($rbt_derogLV2 == "O"){
-				echo "<input type='radio' checked name='rbt_derogLV2' id='derogLV2Oui' value='O'>Oui";
-			} else {
-				echo "<input type='radio'  name='rbt_derogLV2' id='derogLV2Oui' value='O'>Oui";
-			}
-			if($rbt_derogLV2 == "N"){
-				echo "<input type='radio' checked name='rbt_derogLV2' id='derogLV2Non' value='N'>Non";
-			} else {
-				echo "<input type='radio' name='rbt_derogLV2' id='derogLV2Non' value='N'>Non";
-			}
-		?>
-		<br><br>
-		<label><b>Epreuve LV1 :</b></label><br>
-		<select name="lst_epreuveLV1">
-			<?php 
-				include "connexion_bd_gesoraux.php";
-				try{
-					$lesEnregs=$bdd->query("SELECT id,libelle from discipline");
-				} catch(PDOException $e) {
-					die("ErrSelecCiv : erreur lors de la sélection des civilités dans admin_gestion_eleves_composant_graph.php<br>
-						Message d'erreur : ".$e->getMessage());
-				}
-				if($lesEnregs->rowCount()>0) {
-					foreach ($lesEnregs as $enreg) {
-						if($lst_epreuveLV1 == $enreg->id){
-							echo "<option selected value='$enreg->id'>$enreg->libelle</option>";
-						} else {
-							echo "<option value='$enreg->id'>$enreg->libelle</option>";
-						}
-					}
-				}
-			?>
-		</select>
-		<br><br>
-		<label><b>Epreuve LV2 :</b></label><br>
-		<select name="lst_epreuveLV2">
-			<?php 
-				include "connexion_bd_gesoraux.php";
-				try{
-					$lesEnregs=$bdd->query("SELECT id,libelle from discipline");
-				} catch(PDOException $e) {
-					die("ErrSelecCiv : erreur lors de la sélection des civilités dans admin_gestion_eleves_composant_graph.php<br>
-						Message d'erreur : ".$e->getMessage());
-				}
-				if($lesEnregs->rowCount()>0) {
-					foreach ($lesEnregs as $enreg) {
-						if($lst_epreuveLV2 == $enreg->id){
-							echo "<option selected value='$enreg->id'>$enreg->libelle</option>";
-						} else {
-							echo "<option value='$enreg->id'>$enreg->libelle</option>";
-						}
-					}
-				}
-			?>
-		</select>
-		<br><br>
-		<input type="submit" name="btn_valider" value="Valider" />
-		<?php
-			echo $msg;
-		?>		
-	</form>
+
+	<div class="container">
+		<header>
+			<h1 class="text-center">Ajout d'un élève</h1>
+		</header>
+		
+			<form class="" action="" method="post">		
+				<?php
+					include"admin_gestion_eleves_composant_graph.php";
+				?>
+				<div class="form-group">
+					<label class="col-md-4"><b>Bénéficiaire LV1 :</b></label><br>
+					<div class="col-md-12">
+						<?php
+							echo"<div class='form-check form-check-inline'>";
+							if($rbt_benefLV1 == "O"){
+								echo "<input class='form-check-input' type='radio' checked name='rbt_benefLV1' id='benefLV1Oui' value='O'>Oui";
+							} else {
+								echo "<input class='form-check-input' type='radio'  name='rbt_benefLV1' id='benefLV1Oui' value='O'>Oui";
+							}
+							echo"</div>";
+							echo"<div class='form-check form-check-inline'>";
+							if($rbt_benefLV1 == "N"){
+								echo "<input class='form-check-input' type='radio' checked name='rbt_benefLV1' id='benefLV1Non' value='N'>Non";
+							} else {
+								echo "<input class='form-check-input' type='radio' name='rbt_benefLV1' id='benefLV1Non' value='N'>Non";
+							}
+							echo"</div>";
+						?>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-md-4"><b>Bénéficiaire LV2 :</b></label><br>
+					<div class="col-md-12">
+						<?php
+							echo"<div class='form-check form-check-inline'>";
+							if($rbt_benefLV2 == "O"){
+								echo "<input class='form-check-input' type='radio' checked name='rbt_benefLV2' id='benefLV2Oui' value='O'>Oui";
+							} else {
+								echo "<input class='form-check-input' type='radio'  name='rbt_benefLV2' id='benefLV2Oui' value='O'>Oui";
+							}
+							echo"</div>";
+							echo"<div class='form-check form-check-inline'>";
+							if($rbt_benefLV2 == "N"){
+								echo "<input class='form-check-input' type='radio' checked name='rbt_benefLV2' id='benefLV2Non' value='N'>Non";
+							} else {
+								echo "<input class='form-check-input' type='radio' name='rbt_benefLV2' id='benefLV2Non' value='N'>Non";
+							}
+							echo"</div>";
+						?>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-md-4"><b>Dérogation LV1 :</b></label><br>
+					<div class="col-md-12">
+						<?php
+							echo"<div class='form-check form-check-inline'>";
+							if($rbt_derogLV1 == "O"){
+								echo "<input class='form-check-input' type='radio' checked name='rbt_derogLV1' id='derogLV1Oui' value='O'>Oui";
+							} else {
+								echo "<input class='form-check-input' type='radio'  name='rbt_derogLV1' id='derogLV1Oui' value='O'>Oui";
+							}
+							echo"</div>";
+							echo"<div class='form-check form-check-inline'>";
+							if($rbt_derogLV1 == "N"){
+								echo "<input class='form-check-input' type='radio' checked name='rbt_derogLV1' id='derogLV1Non' value='N'>Non";
+							} else {
+								echo "<input class='form-check-input' type='radio' name='rbt_derogLV1' id='derogLV1Non' value='N'>Non";
+							}
+							echo"</div>";
+						?>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-md-4"><b>Dérogation LV2 :</b></label><br>
+					<div class="col-md-12">
+						<?php
+							echo"<div class='form-check form-check-inline'>";
+							if($rbt_derogLV2 == "O"){
+								echo "<input class='form-check-input' type='radio' checked name='rbt_derogLV2' id='derogLV2Oui' value='O'>Oui";
+							} else {
+								echo "<input class='form-check-input' type='radio'  name='rbt_derogLV2' id='derogLV2Oui' value='O'>Oui";
+							}
+							echo"</div>";
+							echo"<div class='form-check form-check-inline'>";
+							if($rbt_derogLV2 == "N"){
+								echo "<input class='form-check-input' type='radio' checked name='rbt_derogLV2' id='derogLV2Non' value='N'>Non";
+							} else {
+								echo "<input class='form-check-input'type='radio' name='rbt_derogLV2' id='derogLV2Non' value='N'>Non";
+							}
+							echo"</div>";
+						?>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-md-4"><b>Epreuve LV1 :</b></label><br>
+					<div class="col-md-12">
+						<select class="custom-select custom-select" name="lst_epreuveLV1">
+							<?php 
+								include "connexion_bd_gesoraux.php";
+								try{
+									$lesEnregs=$bdd->query("SELECT id,libelle from discipline");
+								} catch(PDOException $e) {
+									die("ErrSelecCiv : erreur lors de la sélection des civilités dans admin_gestion_eleves_composant_graph.php<br>
+										Message d'erreur : ".$e->getMessage());
+								}
+								if($lesEnregs->rowCount()>0) {
+									foreach ($lesEnregs as $enreg) {
+										if($lst_epreuveLV1 == $enreg->id){
+											echo "<option class='form-group' selected value='$enreg->id'>$enreg->libelle</option>";
+										} else {
+											echo "<option class='form-group' value='$enreg->id'>$enreg->libelle</option>";
+										}
+									}
+								}
+							?>
+						</select>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-md-4"><b>Epreuve LV2 :</b></label><br>
+					<div class="col-md-12">
+						<select class="custom-select custom-select" name="lst_epreuveLV2">
+							<?php 
+								include "connexion_bd_gesoraux.php";
+								try{
+									$lesEnregs=$bdd->query("SELECT id,libelle from discipline");
+								} catch(PDOException $e) {
+									die("ErrSelecCiv : erreur lors de la sélection des civilités dans admin_gestion_eleves_composant_graph.php<br>
+										Message d'erreur : ".$e->getMessage());
+								}
+								if($lesEnregs->rowCount()>0) {
+									foreach ($lesEnregs as $enreg) {
+										if($lst_epreuveLV2 == $enreg->id){
+											echo "<option class='form-group' selected value='$enreg->id'>$enreg->libelle</option>";
+										} else {
+											echo "<option class='form-group' value='$enreg->id'>$enreg->libelle</option>";
+										}
+									}
+								}
+							?>
+						</select>
+					</div>
+				</div>
+				<div class="form-group d-flex justify-content-center">
+					<input class='btn btn-success btn-lg' type="submit" name="btn_valider" value="Valider" />
+				</div>
+				<?php
+					echo $msg;
+				?>	
+				
+			</form>
+		</div>
+	</div>
+	<div class="col">
+</div>	
+</div>
+</div>
+</div>
 </div>
 </body>
 </html>

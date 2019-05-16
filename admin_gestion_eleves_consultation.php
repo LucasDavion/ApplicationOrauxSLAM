@@ -1,5 +1,5 @@
 <?php
-	include"admin_test_session.php";
+	include"connexion_app_verif.php";
 ?>
 <!DOCTYPE html>
 <html lang="fr-FR">
@@ -12,35 +12,55 @@
 	<script type="text/javascript">
 		function confirmer_suppres()
 		{
-			return(confirm('Etes-vous sûr de vouloir supprimer cet élève.'));
+			return(confirm('Etes-vous sûr de vouloir supprimer cet élève ainsi que ses épreuves.'));
 		}
 	</script>
 </head>
 <body>
+	<?php
+		if(isset($_GET['msg'])==true){
+			$msg=$_GET['msg'];
+			} else {
+				$msg="";
+			}
+	?>
 	<header>
-		<h1>Consultation des élèves</h1>
+		<h1 class="text-center">Consultation des élèves</h1>
 	</header>
 
 		<!--<?php // include "nav_admin.html" ?> !-->
 
-	<section class="bleu">
-		<h1>Gestion des élèves (liste, ajout, modification, suppression)</h1>
-
-		<div class="sec">
-			<div class="table">
+	<section class="">
+		<div class="container">
+			<div class="">
+				<div classe="col">
+					<h2 class="text-center">Gestion des élèves (liste, ajout, modification, suppression)</h2>
+					<br>
+			<div class="d-flex justify-content-center">
 				<a href='admin_gestion_eleves_ajout.php'>
-					<input type='button' name='AjoutEleve' value='Ajouter un élève'/>
+					<input class="btn btn-success btn-lg" type='button' name='AjoutEleve' value='Ajouter un élève'/>
 				</a>
+
 			</div>
+			<br>	
+				<?php 
+				if($msg != ""){
+					echo"<div class='alert alert-success'>";
+					echo $msg; 
+				}
+				?>
+			</div>
+			<br>
+			
+			<div class="d-flex justify-content-center">
 			<?php 
-					if(isset($_GET['msg'])==true){
-						$msg=$_GET['msg'];
-					} else {
-						$msg="";
-					}
+
+
+
 					include "connexion_bd_gesoraux.php";
 					// Sélection des informations 
 					try {
+
 						$lesEnregs=$bdd->query("SELECT eleve.id as eleId,nom,prenom,dateNaissance,tiersTempsON,section.libelle as secLib,division.libelle as divLib,civilite.libelle as civLib,passageepreuve.id as pasId,inscritBenef,derogation,discipline.libelle as disLib,natureepreuve.libelle as natLib from passageepreuve 
 							join eleve on idEleve=eleve.id
 							left outer join section on idSection=section.id 
@@ -53,7 +73,8 @@
 
 						
 						// affichage de la première ligne du tableau
-						echo "<table class ='table text-center'>";
+						echo "<table class ='table table-striped text-center'>";
+						echo"<thead class='thead-dark'>";
 						echo "<tr>";
 						echo "<th>Nom</th>";
 						echo "<th>Prénom</th>";
@@ -70,6 +91,7 @@
 						echo "<th>Modifier</th>";
 						echo "<th>Supprimer</th>";
 					    echo "</tr>";
+					    echo "</thead>";
 
 					    // affichage des caractéristiques de chaque élève
 					    foreach($lesEnregs as $enreg) {
@@ -92,18 +114,20 @@
 					    	
 				    		// boutton modif et supprimer
 					    	echo "<td><a href ='admin_gestion_eleves_modification.php?idElev=$enreg->eleId&idEp=$enreg->pasId'>
-					    		<input type='button' name='Modifier' value='Modifier'/></a></td>";
+					    		<input class='btn btn-info' type='button' name='Modifier' value='Modifier'/></a></td>";
 					    	echo "<td><a href ='admin_gestion_eleves_suppression.php?idElev=$enreg->eleId&idEp=$enreg->pasId' onclick='return confirmer_suppres();'>
-					    		<input type='button' name='Supprimer' value='Supprimer'/></a></td>";
+					    		<input class='btn btn-danger'type='button' name='Supprimer' value='Supprimer'/></a></td>";
 					    		
 					    }
 					    echo "</table>";
 					} catch(PDOException $e) {
 						die("ErrSelectEleEpre : erreur de selection des élèves ou des passages épreuve dans admin_gestio_eleves_consultation.php
 							<br>Message d'erreur : " .$e->getMessage());
-					}
-					echo $msg;
-		    ?>
+					}				
+		    ?>		
+		    </div>		
+			</div>
+			</div>
 		</div>
 	</section>
 	<footer>
