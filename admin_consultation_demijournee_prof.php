@@ -1,5 +1,9 @@
 <?php
 include"connexion_bd_gesoraux.php"
+session_start();
+if(isset($_SESSION["idTypeUtilisateur"])==false || $_SESSION["idTypeUtilisateur"] != 1){
+    header("Location: connexion_app.php");
+}
 ?>
 <!doctype html>
 <html class="no-js" lang="fr-FR">
@@ -64,7 +68,7 @@ include"connexion_bd_gesoraux.php"
           </div>
           <div class="col-auto mr-auto"></div>
           <!-- Nav Item - User Information -->
-          <?php include "bouton_profil.php"; ?>
+          <?php include "bouton_profil"; ?>
         </div>
       </div>
       <section>
@@ -146,7 +150,7 @@ include"connexion_bd_gesoraux.php"
                                 <?php
                               }
                             } catch (PDOException $e) {
-                              die("Err BDALec02Erreur : erreur de SELECT<br>Message d'erreur:".$e->getMessage());
+                              echo("Err BDALec01Erreur : erreur de SELECT<br>Message d'erreur:".$e->getMessage());
                             }
                           }
 
@@ -176,7 +180,7 @@ include"connexion_bd_gesoraux.php"
 
                               }
                             } catch (PDOException $e) {
-                              die("Err BDALec03Erreur : erreur de SELECT<br>Message d'erreur:".$e->getMessage());
+                              echo("Err BDALec02Erreur : erreur de SELECT<br>Message d'erreur:".$e->getMessage());
                             }
                           }
 
@@ -186,7 +190,7 @@ include"connexion_bd_gesoraux.php"
                       }
                     }
                     catch (PDOException $e) {
-                      die("Err BDALec04Erreur : erreur de SELECT<br>Message d'erreur:".$e->getMessage());
+                      echo("Err BDALec03Erreur : erreur de SELECT<br>Message d'erreur:".$e->getMessage());
                     }
                     ?>
                   </tbody>
