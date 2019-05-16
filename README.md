@@ -111,7 +111,7 @@ Si vous avez besoin d'utiliser un tableau :
 Aider vous de cet exemple pour mieux comprendre :
 
 ```html
-<table class="table table-striped">
+<table class="table table-striped text-center">
   <thead classe="thead-dark">
     <tr>
       <th scope="col">#</th>
