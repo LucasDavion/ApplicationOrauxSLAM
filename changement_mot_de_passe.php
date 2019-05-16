@@ -87,23 +87,10 @@ include"connexion_bd_gesoraux.php"
         <div class="sidebar-menu">
           <div class="sidebar-header">
             <div class="logo">
-              <a href="index.html"><img src="assets/images/icon/logo.png" alt="logo"></a>
+              <a href="index.html"><img src="images/logo.png" alt="logo"></a>
             </div>
           </div>
-          <div class="main-menu">
-            <div class="menu-inner">
-              <nav>
-                <ul class="metismenu" id="menu">
-                  <li><a href="barchart.html">Choisir mes éleves</a></li>
-                  <li><a href="barchart.html">Choisir mes demi-journées</a></li>
-                  <li><a href="barchart.html">Consulter mon planing</a></li>
-                  <li><a href="barchart.html">Consulter la liste des éleves</a></li>
-                  <li><a href="barchart.html">Consulter la liste des éleves absent aux épreuves</a></li>
-                  <li><a href="barchart.html">Consulter/imprimer la liste d’émargement</a></li>
-                </ul>
-              </nav>
-            </div>
-          </div>
+          <?php include "admin_nav.html" ?>
         </div>
         <!-- sidebar menu area end -->
         <!-- main content area start -->
@@ -124,11 +111,11 @@ include"connexion_bd_gesoraux.php"
               <ul class="">
                 <li class="nav-item dropdown">
                   <a class="nav-link dropdown-toggle text-white" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    <button type="button" name="button" class="btn btn-secondary"><span class="mr-2 d-none d-lg-inline text-white extra-large float-right"><i class="fas fa-user-circle"></i> Mme Anglais</span></button>
+                    <button type="button" name="button" class="btn btn-secondary"><span class="mr-2 d-none d-lg-inline text-white extra-large float-right"><i class="fas fa-user-circle"></i><?php echo $_SESSION['nom_prenom']; ?></span></button>
                   </a>
                   <!-- Dropdown - User Information -->
                   <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="userDropdown">
-                    <a class="dropdown-item" href="#">
+                    <a class="dropdown-item" href="mon_profil.php">
                       <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
                       Mon profil
                     </a>
@@ -138,7 +125,7 @@ include"connexion_bd_gesoraux.php"
                       Modifier mon mot de passe
                     </a>
                     <div class="dropdown-divider"></div>
-                    <a class="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal">
+                    <a class="dropdown-item" href="deconnexion.php">
                       <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
                       Se déconnecter
                     </a>

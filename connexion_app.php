@@ -1,7 +1,7 @@
 <?php 
 $msg="";
 session_start();
-if (isset($_POST ["ident"])==true && isset($_POST["mdp"])==true)
+if (isset($_POST ["ident"]) && isset($_POST["mdp"]))
 {
 	include "connexion_bd_gesoraux.php";
 
@@ -9,7 +9,7 @@ if (isset($_POST ["ident"])==true && isset($_POST["mdp"])==true)
 	if(empty($_POST)==false){
 		try{
 			$mdp_crypte=sha1($mdp);
-			$req= $bdd->prepare("SELECT nom, prenom, idTypeUtilisateur, id, idDiscipline FROM utilisateur WHERE identifiant= :par_identifiant AND motDePasse= :par_motDePasse");
+			$req= $bdd->prepare("SELECT nom, prenom, idTypeUtilisateur, id, idDiscipline, mail FROM utilisateur WHERE identifiant= :par_identifiant AND motDePasse= :par_motDePasse");
 			$req->bindValue(':par_identifiant', $ident, PDO::PARAM_STR);
 			$req->bindValue(':par_motDePasse', $mdp_crypte, PDO::PARAM_STR);
 			$req->execute();
@@ -25,6 +25,7 @@ if (isset($_POST ["ident"])==true && isset($_POST["mdp"])==true)
 			$_SESSION['idTypeUtilisateur'] = $enreg->idTypeUtilisateur;
 			$_SESSION['id'] = $enreg->id;
 			$_SESSION['idDiscipline']=$enreg->idDiscipline;
+			$_SESSION['mail']=$enreg->mail;
 			if($enreg->idTypeUtilisateur=='1'){
 				header('Location: panel_admin_gesoraux.php');
 			}else{

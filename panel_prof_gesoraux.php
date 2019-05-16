@@ -1,6 +1,12 @@
+<?php
+session_start();
+if(isset($_SESSION["idTypeUtilisateur"])==false || $_SESSION["idTypeUtilisateur"] != 2){
+    header("connexion_app.php");
+}
+?>
 <!doctype html>
 <html class="no-js" lang="fr-FR">
-<?php session_start(); ?>
+
 <head>
     <meta charset="utf-8">
     <meta http-equiv="x-ua-compatible" content="ie=edge">
@@ -39,9 +45,23 @@
         <!-- sidebar menu area start -->
         <div class="sidebar-menu">
             <div class="sidebar-header">
-
+                <div class="logo">
+                  <a href="index.html"><img src="images/logo.png" alt="logo"></a>
+              </div>
             </div>
-            <?php include "prof_nav.html" ?>
+                      <?php  
+if($_SESSION["idTypeUtilisateur"]=='1'){
+               include "admin_nav.html";
+            }else{
+                if($_SESSION["idTypeUtilisateur"]=='2'){
+                    include "prof_nav.html";
+                }else{
+                    if($_SESSION["idTypeUtilisateur"]=='3'){
+                        include "scolarite_nav.html";
+                    }   
+                }
+            }
+          ?>
         </div>
         <!-- sidebar menu area end -->
         <!-- main content area start -->
@@ -59,7 +79,29 @@
                     </div>
                     <div class="col-auto mr-auto"></div>
                     <!-- Nav Item - User Information -->
-                    <?php include "bouton_profil.php"; ?>
+                    <ul class="">
+                      <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle text-white" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                          <button type="button" name="button" class="btn btn-secondary"><span class="mr-2 d-none d-lg-inline text-white extra-large float-right"><i class="fas fa-user-circle"></i> <?php echo $_SESSION['nom_prenom']; ?></span></button>
+                        </a>
+                        <!-- Dropdown - User Information -->
+                        <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="userDropdown">
+                          <a class="dropdown-item" href="mon_profil.php">
+                            <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
+                            Mon profil
+                          </a>
+                          <a class="dropdown-item" href="changement_mot_de_passe.php">
+                            <i class="fas fa-key fa-sm fa-fw mr-2 text-gray-400"></i>
+                            Modifier mon mot de passe
+                          </a>
+                          <div class="dropdown-divider"></div>
+                          <a class="dropdown-item" href="deconnexion.php">
+                            <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
+                            Se déconnecter
+                          </a>
+                        </div>
+                      </li>
+                    </ul>
                 </div>
             </div>
             <section>
