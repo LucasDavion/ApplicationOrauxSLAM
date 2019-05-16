@@ -64,30 +64,7 @@ include"connexion_bd_gesoraux.php"
           </div>
           <div class="col-auto mr-auto"></div>
           <!-- Nav Item - User Information -->
-          <ul class="">
-            <li class="nav-item dropdown">
-              <a class="nav-link dropdown-toggle text-white" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                <button type="button" name="button" class="btn btn-secondary"><span class="mr-2 d-none d-lg-inline text-white extra-large float-right"><i class="fas fa-user-circle"></i> Mme Anglais</span></button>
-              </a>
-              <!-- Dropdown - User Information -->
-              <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="userDropdown">
-                <a class="dropdown-item" href="#">
-                  <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
-                  Mon profil
-                </a>
-                <a href="changemdp.php" class="dropdown-item" href="#">
-                  <i class="fas fa-key fa-sm fa-fw mr-2 text-gray-400"></i>
-
-                  Modifier mon mot de passe
-                </a>
-                <div class="dropdown-divider"></div>
-                <a class="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal">
-                  <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
-                  Se déconnecter
-                </a>
-              </div>
-            </li>
-          </ul>
+          <?php include "bouton_profil.php"; ?>
         </div>
       </div>
       <section>
@@ -179,7 +156,7 @@ include"connexion_bd_gesoraux.php"
                           <th scope="row">Après-Midi</th>
                           <?php
                           //Select et affichage des profs pour le matin
-                          $lesenregs = $bdd->query("SELECT id from demijournee where matinAprem='aprem'");
+                          $lesenregs = $bdd->query("SELECT id from demijournee where matinAprem='après-midi'");
                           foreach ($lesenregs as $enreg) {
                             $idPeriode = $enreg->id;
                             try {
