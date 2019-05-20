@@ -1,5 +1,5 @@
 <?php
-include"connexion_bd_gesoraux.php"
+include"connexion_bd_gesoraux.php";
 session_start();
 if(isset($_SESSION["idTypeUtilisateur"])==false || $_SESSION["idTypeUtilisateur"] != 1){
     header("Location: connexion_app.php");
@@ -68,7 +68,7 @@ if(isset($_SESSION["idTypeUtilisateur"])==false || $_SESSION["idTypeUtilisateur"
           </div>
           <div class="col-auto mr-auto"></div>
           <!-- Nav Item - User Information -->
-          <?php include "bouton_profil"; ?>
+          <?php include "bouton_profil.php"; ?>
         </div>
       </div>
       <section>
@@ -98,7 +98,7 @@ if(isset($_SESSION["idTypeUtilisateur"])==false || $_SESSION["idTypeUtilisateur"
                       echo "Aucune date dans la base de données";
                     } else {
                       ?>
-                      <thead>
+                      <thead class="thead-dark">
                         <tr>
                           <td>
                             <br>
@@ -131,9 +131,9 @@ if(isset($_SESSION["idTypeUtilisateur"])==false || $_SESSION["idTypeUtilisateur"
                           <th scope="row">Matin</th>
                           <?php
                           //Select et affichage des profs pour le matin
-                          $lesenregs = $bdd->query("SELECT id from demijournee where matinAprem='matin'");
-                          foreach ($lesenregs as $enreg) {
-                            $idPeriode = $enreg->id;
+                          $lesenregsId = $bdd->query("SELECT id from demijournee where matinAprem='matin'");
+                          foreach ($lesenregsId as $enregId) {
+                            $idPeriode = $enregId->id;
                             try {
                               $lesenregsmatin = $bdd->query("SELECT utilisateur.nom as 'nom', salle.libelle as 'salle' from choixprofdemijournee join utilisateur on idUtilisateur = utilisateur.id join demijournee on idDemiJournee = demijournee.id join salle on idSalle = salle.id where idDemiJournee = $idPeriode");
                               if ($lesenregsmatin->rowCount()==0) {
@@ -147,13 +147,21 @@ if(isset($_SESSION["idTypeUtilisateur"])==false || $_SESSION["idTypeUtilisateur"
                                   }
                                   ?>
                                 </td>
+
                                 <?php
                               }
                             } catch (PDOException $e) {
                               echo("Err BDALec01Erreur : erreur de SELECT<br>Message d'erreur:".$e->getMessage());
                             }
                           }
-
+                          //Mettre une couleur rouge quand c'est vide
+                          $lesenregs = $bdd->query("SELECT DISTINCT date, id from demijournee where matinAprem = 'matin'");
+                          foreach ($lesenregs as $enreg) {
+                            $enregsUtiliser = $bdd->query("SELECT idDemiJournee from choixprofdemijournee where idDemiJournee = $enreg->id");
+                            if ($enregsUtiliser->rowCount()==0) {
+                              echo "<td class='table-danger'>Aucun</td>";
+                            }
+                          }
                           ?>
                         </tr>
                         <tr>
@@ -177,7 +185,13 @@ if(isset($_SESSION["idTypeUtilisateur"])==false || $_SESSION["idTypeUtilisateur"
                                   ?>
                                 </td>
                                 <?php
-
+                                $lesenregs = $bdd->query("SELECT DISTINCT date, id from demijournee where matinAprem = 'après-Midi'");
+                                foreach ($lesenregs as $enreg) {
+                                  $enregsUtiliser = $bdd->query("SELECT idDemiJournee from choixprofdemijournee where idDemiJournee = $enreg->id");
+                                  if ($enregsUtiliser->rowCount()==0) {
+                                    echo "<td class='table-danger'>Aucun</td>";
+                                  }
+                                }
                               }
                             } catch (PDOException $e) {
                               echo("Err BDALec02Erreur : erreur de SELECT<br>Message d'erreur:".$e->getMessage());
