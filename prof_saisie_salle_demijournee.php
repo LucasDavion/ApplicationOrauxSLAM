@@ -175,13 +175,13 @@ if($_SESSION["idTypeUtilisateur"]=='1'){
 </div>
 <section>
     
-    <h1>Saisie et Modification des demi-journées</h1></br>
+    <h1><center>Saisie et Modification des demi-journées</center></h1></br>
         <div class="container">       
             <table class="table text-center table-bordered">
                 <thead class="thead-dark">
 
                 <!-- début formulaire !-->
-                <form action='saisie_demi_journee.php' method='post'>
+                <form action='' method='post'>
                     
                     <?php
 
