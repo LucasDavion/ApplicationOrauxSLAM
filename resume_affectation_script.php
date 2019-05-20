@@ -1,5 +1,4 @@
 <?php
-
 include "connexion_gesoraux.php";
 
 if (isset($_POST['discipline'])==true){
