@@ -58,8 +58,26 @@
 				// fin FOREACH	
 				}
 				echo "</select>";
-				echo "</form>";				
-				
+				echo "</form>";			
+/*
+				 ___
+				/  /
+			   /  /  ___
+			  /  /  /__/
+			 /  /_____   __________
+			/_____   /  /______   /
+			     /  /  ___    /  /
+			    /  /  /__/   /  /
+			   /  /  _______/  /
+			  /__/  /_________/
+
+
+
+
+
+
+
+				*/
 		?>
 <div class="resultat"></div>
 				
@@ -70,7 +88,7 @@
 </body>
 </html>
 
-
+      
 
 
 
@@ -80,7 +98,7 @@ src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 	$(document).ready(function(){
 		$("#discipline").change(function(){
 			$.ajax({
-				url: 'resume_affectation.php',
+				url: 'resume_affectation_script.php',
 				type: 'POST',
 				data: 'discipline=' + $("#discipline").val(),
 				dataType : 'html',
