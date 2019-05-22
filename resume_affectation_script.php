@@ -1,5 +1,6 @@
 <?php
-include "connexion_gesoraux.php";
+
+include "connexion_bd_gesoraux.php";
 
 if (isset($_POST['discipline'])==true){
 	//donne dans une variable le nb d'éleve selectionné

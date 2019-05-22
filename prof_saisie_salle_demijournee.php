@@ -134,7 +134,7 @@ if(isset($_POST['bouton_valider'])==true){
         <div class="sidebar-menu">
             <div class="sidebar-header">
                 <div class="logo">
-                  <a href="index.html"><img src="images/logo.png" alt="logo"></a>
+                  <a href="panel_prof_gesoraux.php"><img src="images/logo.png" alt="logo"></a>
               </div>
           </div>
           <?php  
@@ -174,8 +174,8 @@ if($_SESSION["idTypeUtilisateur"]=='1'){
     </div>
 </div>
 <section>
-    
-    <h1><center>Saisie et Modification des demi-journées</center></h1></br>
+    <br>
+    <h1><center>Choix des salles et des demi-journées</center></h1></br>
         <div class="container">       
             <table class="table text-center table-bordered">
                 <thead class="thead-dark">
@@ -331,8 +331,9 @@ if($_SESSION["idTypeUtilisateur"]=='1'){
                     ?>
                 
                 </table>
-
-                <input type="submit" class="btn btn-success" name="bouton_valider" id="bouton_valider" value="Valider" />
+                <div class="d-flex justify-content-center">
+                <input type="submit" class="btn btn-success " name="bouton_valider" id="bouton_valider" value="Valider" />
+                </div>
                 <!-- fin formulaire !-->
             </form>
 

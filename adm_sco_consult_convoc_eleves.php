@@ -1,3 +1,10 @@
+
+<?php
+session_start();
+if(isset($_SESSION["idTypeUtilisateur"])==false || $_SESSION["idTypeUtilisateur"] != 1){
+    header("Location: connexion_app.php");
+}
+?>
 <?php
 // Permet que les insructions permettant de se positionner sur la bonne obtion fonctionnent correctement
 if(isset($_POST['lst_division'])==true){
@@ -11,24 +18,97 @@ if(isset($_POST['lst_prof'])==true){
 	$lst_prof=0;
 }
 ?>
-<!DOCTYPE html>
-<html lang="fr">
+<!doctype html>
+<html class="no-js" lang="fr-FR">
+
 <head>
-	<meta charset="UTF-8">
-	<link rel="stylesheet" href="css/bootstrap.css">
-	<link rel="stylesheet" href="css/bootstrap-grid.css">
-	<link rel="stylesheet" href="css/bootstrap-reboot.css">
-	<title>Consultation des convocartions des élèves</title>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <title>Application</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="shortcut icon" type="image/png" href="assets/images/icon/icon.ico">
+    <link rel="stylesheet" href="assets/css/bootstrap.min.css">
+    <link rel="stylesheet" href="assets/css/font-awesome.min.css">
+    <link rel="stylesheet" href="assets/css/themify-icons.css">
+    <link rel="stylesheet" href="assets/css/metisMenu.css">
+    <link rel="stylesheet" href="assets/css/owl.carousel.min.css">
+    <link rel="stylesheet" href="assets/css/slicknav.min.css">
+    <!-- amchart css -->
+    <link rel="stylesheet" href="https://www.amcharts.com/lib/3/plugins/export/export.css" type="text/css" media="all" />
+    <!-- others css -->
+    <link rel="stylesheet" href="assets/css/typography.css">
+    <link rel="stylesheet" href="assets/css/default-css.css">
+    <link rel="stylesheet" href="assets/css/styles.css">
+    <link rel="stylesheet" href="assets/css/responsive.css">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
+    <!-- modernizr css -->
+    <script src="assets/js/vendor/modernizr-2.8.3.min.js"></script>
 </head>
+
 <body>
-	<div class="container">
-		<h1><center>Consultation des convocations des élèves</center></h1>
-		<?php 
+    <!--[if lt IE 8]>
+        <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
+    <![endif]-->
+    <!-- preloader area start -->
+    <div id="preloader">
+        <div class="loader"></div>
+    </div>
+    <!-- preloader area end -->
+    <!-- page container area start -->
+    <div class="page-container">
+        <!-- sidebar menu area start -->
+        <div class="sidebar-menu">
+            <div class="sidebar-header">
+                <div class="logo">
+                  <a href="index.html"><img src="images/logo.png" alt="logo"></a>
+              </div>
+          </div>
+          <?php  
+if($_SESSION["idTypeUtilisateur"]=='1'){
+               include "admin_nav.html";
+            }else{
+                if($_SESSION["idTypeUtilisateur"]=='2'){
+                    include "prof_nav.html";
+                }else{
+                    if($_SESSION["idTypeUtilisateur"]=='3'){
+                        include "scolarite_nav.html";
+                    }   
+                }
+            }
+          ?>
+
+      </div>
+      <!-- sidebar menu area end -->
+      <!-- main content area start -->
+      <div class="main-content">
+        <!-- header area start -->
+        <div class="header-area">
+            <div class="row align-items-center">
+                <!-- nav and search button -->
+                <div class="nav-btn pull-left">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
+                <div class="col-auto">
+                </div>
+                <div class="col-auto mr-auto"></div>
+                <!-- Nav Item - User Information -->
+                <?php 
+                    include "bouton_profil.php";
+                     ?>
+    </div>
+</div>
+<section>
+
+<?php 
 		// Connexion à la base de données
 		include "connexion_bd_gesoraux.php";
 		?>
 		<!-- Formulaire avec des listes déroulantes pour selectionner les options -->
-		<form action="adm_sco_consult_convoc_eleves.php" method="POST" >
+		<div class="container"><br>
+			<h1 class="text-center">Consultation des convocations des élèves</h1><br>
+			<form action="adm_sco_consult_convoc_eleves.php" method="POST" >
 			<!-- Liste déroulante pour la selection des divisions -->
 			<div class="input-group mb-3">
 				<div class="input-group-prepend">
@@ -85,9 +165,10 @@ if(isset($_POST['lst_prof'])==true){
 					?>
 				</select>
 			</div>
-		</div>
+		
 		<br>
 	</form>
+		</div>
 	<?php
 	// Exécution de la requête qui récupère toutes les informations que l'on a besion pour la consultation des convocations
 	try{
@@ -136,7 +217,7 @@ if(isset($_POST['lst_prof'])==true){
 		}
 		$reqConovoc->execute();
 	}catch(PDOException $e) {
-		die("Err BDSelect  : erreur select des convocations dans consult_convoc_eleves.php<br>
+		echo("Err BDSelect  : erreur select des convocations dans consult_convoc_eleves.php<br>
 			Message d'erreur :" . $e->getMessage());
 	}
 	// Affichage d'un message à l'utilisateur si il n'y a aucune convocation qui n'a été enregistée ou qu'il n'y a pas de convocations qui correspondent aux options qu'il a selectionné dans les listes déroulantes
@@ -148,7 +229,7 @@ if(isset($_POST['lst_prof'])==true){
 			echo("<h3><center>Aucune convocation ne correspond à ces critères</center></h3>");
 		}else{
 			echo"<table class='table table-striped text-center'>
-			<thead classe='thead-dark'>
+			<thead class='thead-dark'>
 			<tr>
 			<th scope='col'>Nom</th>
 			<th scope='col'>Prenom</th>
@@ -177,7 +258,45 @@ if(isset($_POST['lst_prof'])==true){
 			echo"</tbody></table>";
 		}
 	}
+
+
 	?>
+	</div>
+</section>
 </div>
+</div>
+<!-- jquery latest version -->
+<script src="assets/js/vendor/jquery-2.2.4.min.js"></script>
+<!-- bootstrap 4 js -->
+<script src="assets/js/popper.min.js"></script>
+<script src="assets/js/bootstrap.min.js"></script>
+<script src="assets/js/owl.carousel.min.js"></script>
+<script src="assets/js/metisMenu.min.js"></script>
+<script src="assets/js/jquery.slimscroll.min.js"></script>
+<script src="assets/js/jquery.slicknav.min.js"></script>
+
+<!-- start chart js -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.2/Chart.min.js"></script>
+<!-- start highcharts js -->
+<script src="https://code.highcharts.com/highcharts.js"></script>
+<!-- start zingchart js -->
+<script src="https://cdn.zingchart.com/zingchart.min.js"></script>
+<script>
+    zingchart.MODULESDIR = "https://cdn.zingchart.com/modules/";
+    ZC.LICENSE = ["569d52cefae586f634c54f86dc99e6a9", "ee6b7db5b51705a13dc2339db3edaf6d"];
+</script>
+<!-- all line chart activation -->
+<script src="assets/js/line-chart.js"></script>
+<!-- all pie chart -->
+<script src="assets/js/pie-chart.js"></script>
+<!-- others plugins -->
+<script src="assets/js/plugins.js"></script>
+<script src="assets/js/scripts.js"></script>
 </body>
 </html>
+
+
+
+
+
+

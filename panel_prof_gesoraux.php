@@ -46,11 +46,11 @@ if(isset($_SESSION["idTypeUtilisateur"])==false || $_SESSION["idTypeUtilisateur"
         <div class="sidebar-menu">
             <div class="sidebar-header">
                 <div class="logo">
-                  <a href="index.html"><img src="images/logo.png" alt="logo"></a>
+                  <a href="panel_prof_gesoraux.php"><img src="images/logo.png" alt="logo"></a>
               </div>
             </div>
-                      <?php  
-if($_SESSION["idTypeUtilisateur"]=='1'){
+            <?php  
+            if($_SESSION["idTypeUtilisateur"]=='1'){
                include "admin_nav.html";
             }else{
                 if($_SESSION["idTypeUtilisateur"]=='2'){
@@ -88,7 +88,7 @@ if($_SESSION["idTypeUtilisateur"]=='1'){
                 <br><br><br><h1 class="text-center">Bienvenue sur le panel Professeur</h1>
             </section>
           </div>
-        </div>
+    </div>
     <!-- jquery latest version -->
     <script src="assets/js/vendor/jquery-2.2.4.min.js"></script>
     <!-- bootstrap 4 js -->

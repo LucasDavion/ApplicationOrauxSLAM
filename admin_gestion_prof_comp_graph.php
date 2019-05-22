@@ -2,7 +2,7 @@
 	<div class="row d-flex justify-content-center">
 		
 		<div class="col-6">
-			<div class="border border-dark rounded rounded-lg">
+			<div class="border">
 				<div class="form-group">
 					<!-- radio bouton avec la civilité -->
 					<label  class="col-md-4" for="mr"><b>Civilité</b></label>

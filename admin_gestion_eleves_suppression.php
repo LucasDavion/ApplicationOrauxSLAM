@@ -20,7 +20,7 @@
 			echo("ErrSuppEleve : Erreur lors de la suppression de l'élève dans admin_gestion_eleves_suppression.php.
 				<br>Message d'erreur:".$e->getMessage());
 		}
-			$msg="La suppression a bien été effectué.";
+			$msg="La suppression a bien été effectuée.";
 			header('Location: admin_gestion_eleves_consultation.php?msg='.$msg);		
 	}
 ?>

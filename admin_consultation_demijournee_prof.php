@@ -47,7 +47,7 @@ if(isset($_SESSION["idTypeUtilisateur"])==false || $_SESSION["idTypeUtilisateur"
     <div class="sidebar-menu">
       <div class="sidebar-header">
         <div class="logo">
-          <a href="index.html"><img src="assets/images/icon/logo.png" alt="logo"></a>
+          <a href="index.html"><img src="images/logo.png" alt="logo"></a>
         </div>
       </div>
       <?php include "admin_nav.html" ?>
@@ -73,7 +73,7 @@ if(isset($_SESSION["idTypeUtilisateur"])==false || $_SESSION["idTypeUtilisateur"
       </div>
       <section>
         <div class="container text-center">
-          <br><br><h1>Consulation des demi-journées des profs</h1>
+          <br><br><h1>Consultation des demi-journées des professeurs</h1>
           <hr>
         </div>
       </section>
@@ -98,7 +98,7 @@ if(isset($_SESSION["idTypeUtilisateur"])==false || $_SESSION["idTypeUtilisateur"
                       echo "Aucune date dans la base de données";
                     } else {
                       ?>
-                      <thead class="thead-dark">
+                      <thead>
                         <tr>
                           <td>
                             <br>
@@ -131,9 +131,9 @@ if(isset($_SESSION["idTypeUtilisateur"])==false || $_SESSION["idTypeUtilisateur"
                           <th scope="row">Matin</th>
                           <?php
                           //Select et affichage des profs pour le matin
-                          $lesenregsId = $bdd->query("SELECT id from demijournee where matinAprem='matin'");
-                          foreach ($lesenregsId as $enregId) {
-                            $idPeriode = $enregId->id;
+                          $lesenregs = $bdd->query("SELECT id from demijournee where matinAprem='matin'");
+                          foreach ($lesenregs as $enreg) {
+                            $idPeriode = $enreg->id;
                             try {
                               $lesenregsmatin = $bdd->query("SELECT utilisateur.nom as 'nom', salle.libelle as 'salle' from choixprofdemijournee join utilisateur on idUtilisateur = utilisateur.id join demijournee on idDemiJournee = demijournee.id join salle on idSalle = salle.id where idDemiJournee = $idPeriode");
                               if ($lesenregsmatin->rowCount()==0) {
@@ -147,21 +147,13 @@ if(isset($_SESSION["idTypeUtilisateur"])==false || $_SESSION["idTypeUtilisateur"
                                   }
                                   ?>
                                 </td>
-
                                 <?php
                               }
                             } catch (PDOException $e) {
                               echo("Err BDALec01Erreur : erreur de SELECT<br>Message d'erreur:".$e->getMessage());
                             }
                           }
-                          //Mettre une couleur rouge quand c'est vide
-                          $lesenregs = $bdd->query("SELECT DISTINCT date, id from demijournee where matinAprem = 'matin'");
-                          foreach ($lesenregs as $enreg) {
-                            $enregsUtiliser = $bdd->query("SELECT idDemiJournee from choixprofdemijournee where idDemiJournee = $enreg->id");
-                            if ($enregsUtiliser->rowCount()==0) {
-                              echo "<td class='table-danger'>Aucun</td>";
-                            }
-                          }
+
                           ?>
                         </tr>
                         <tr>
@@ -185,13 +177,7 @@ if(isset($_SESSION["idTypeUtilisateur"])==false || $_SESSION["idTypeUtilisateur"
                                   ?>
                                 </td>
                                 <?php
-                                $lesenregs = $bdd->query("SELECT DISTINCT date, id from demijournee where matinAprem = 'après-Midi'");
-                                foreach ($lesenregs as $enreg) {
-                                  $enregsUtiliser = $bdd->query("SELECT idDemiJournee from choixprofdemijournee where idDemiJournee = $enreg->id");
-                                  if ($enregsUtiliser->rowCount()==0) {
-                                    echo "<td class='table-danger'>Aucun</td>";
-                                  }
-                                }
+
                               }
                             } catch (PDOException $e) {
                               echo("Err BDALec02Erreur : erreur de SELECT<br>Message d'erreur:".$e->getMessage());
