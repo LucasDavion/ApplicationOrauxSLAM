@@ -177,7 +177,7 @@ if($_SESSION["idTypeUtilisateur"]=='1'){
 <section>
     
     <h1><center>Saisie et Modification des demi-journées</center></h1></br>
-        <div class="container">       
+        <div class="">       
             <table class="table text-center table-bordered">
                 <thead class="thead-dark">
 
