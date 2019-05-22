@@ -148,6 +148,14 @@ if(isset($_SESSION["idTypeUtilisateur"])==false || $_SESSION["idTypeUtilisateur"
                                   ?>
                                 </td>
                                 <?php
+                                  //Mettre une couleur rouge quand c'est vide
+                                $lesenregs = $bdd->query("SELECT DISTINCT date, id from demijournee where matinAprem = 'après-Midi'");
+                                foreach ($lesenregs as $enreg) {
+                                  $enregsUtiliser = $bdd->query("SELECT idDemiJournee from choixprofdemijournee where idDemiJournee = $enreg->id");
+                                  if ($enregsUtiliser->rowCount()==0) {
+                                    echo "<td class='table-danger'>Aucun</td>";
+                                  }
+                                }
                               }
                             } catch (PDOException $e) {
                               echo("Err BDALec01Erreur : erreur de SELECT<br>Message d'erreur:".$e->getMessage());
@@ -159,7 +167,7 @@ if(isset($_SESSION["idTypeUtilisateur"])==false || $_SESSION["idTypeUtilisateur"
                         <tr>
                           <th scope="row">Après-Midi</th>
                           <?php
-                          //Select et affichage des profs pour le matin
+                          //Select et affichage des profs pour l'aprem
                           $lesenregs = $bdd->query("SELECT id from demijournee where matinAprem='après-midi'");
                           foreach ($lesenregs as $enreg) {
                             $idPeriode = $enreg->id;
@@ -177,7 +185,14 @@ if(isset($_SESSION["idTypeUtilisateur"])==false || $_SESSION["idTypeUtilisateur"
                                   ?>
                                 </td>
                                 <?php
-
+                                  //Mettre une couleur rouge quand c'est vide
+                                $lesenregs = $bdd->query("SELECT DISTINCT date, id from demijournee where matinAprem = 'après-Midi'");
+                                foreach ($lesenregs as $enreg) {
+                                  $enregsUtiliser = $bdd->query("SELECT idDemiJournee from choixprofdemijournee where idDemiJournee = $enreg->id");
+                                  if ($enregsUtiliser->rowCount()==0) {
+                                    echo "<td class='table-danger'>Aucun</td>";
+                                  }
+                                }
                               }
                             } catch (PDOException $e) {
                               echo("Err BDALec02Erreur : erreur de SELECT<br>Message d'erreur:".$e->getMessage());
