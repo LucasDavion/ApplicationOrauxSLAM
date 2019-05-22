@@ -1,12 +1,11 @@
 <?php
 session_start();
-if(isset($_SESSION["idTypeUtilisateur"])==false || $_SESSION["idTypeUtilisateur"] != 1 && $_SESSION["idTypeUtilisateur"] != 2){
-    header("Location: connexion_app.php");
+if(isset($_SESSION["idTypeUtilisateur"])==false || $_SESSION["idTypeUtilisateur"] != 2){
+    header("connexion_app.php");
 }
 
-
 // $id_Util=$_SESSION['id'];
-$id_Util=$_SESSION["idTypeUtilisateur"];
+$id_Util=$_SESSION["id"];
 $valeur="";
 $val_chb="";
 $msg="";
@@ -28,8 +27,8 @@ if(isset($_POST['bouton_valider'])==true){
     
     // pour une modification venant de l'utilisateur, on doit d'abord supprimer ses précédentes sélections dans la base de données pour les rajouter en plus des nouvelles (ou les enlever)
     try{
-        $lesEnregs=$bdd->prepare("Delete from choixprofdemijournee where idUtilisateur=:par_id_Util");
-        $lesEnregs->bindValue(":par_id_Util",$id_Util,PDO::PARAM_INT);
+        $lesEnregs=$bdd->prepare("Delete from choixprofdemijournee where idUtilisateur=:par_idUtil");
+        $lesEnregs->bindValue(":par_idUtil",$id_Util,PDO::PARAM_INT);
         $lesEnregs->execute();
 
     } catch(PDOException $e){
@@ -48,12 +47,12 @@ if(isset($_POST['bouton_valider'])==true){
                 $lesSallesPrises=$bdd->prepare("SELECT idDemiJournee from choixprofdemijournee where idSalle=$valeur and idDemijournee=$val_chb");
                 $lesSallesPrises->execute();
                 $laSallePrise = $lesSallesPrises->fetch();
+                
                 // le SELECT a retourné un enregistrement: on récupère l'enregistrement 
                 
                 // la salle n'existe pas dans la base de donnée : on peut donc l'enregistrer avec un insert
                 if($laSallePrise == false)
                 {
-
                     $requete=$bdd->prepare("INSERT into choixprofdemijournee values(:par_idUtil, :par_idDemiJournee, :par_idSalle)");
                     $requete->bindValue(':par_idUtil', $id_Util, PDO::PARAM_INT);
                     $requete->bindValue(':par_idDemiJournee', $val_chb, PDO::PARAM_INT);
@@ -92,6 +91,7 @@ if(isset($_POST['bouton_valider'])==true){
 
 }
 ?>
+
 <!doctype html>
 <html class="no-js" lang="fr-FR">
 
@@ -134,7 +134,7 @@ if(isset($_POST['bouton_valider'])==true){
         <div class="sidebar-menu">
             <div class="sidebar-header">
                 <div class="logo">
-                  <a href="panel_prof_gesoraux.php"><img src="images/logo.png" alt="logo"></a>
+                  <a href="index.html"><img src="images/logo.png" alt="logo"></a>
               </div>
           </div>
           <?php  
@@ -173,9 +173,10 @@ if($_SESSION["idTypeUtilisateur"]=='1'){
                      ?>
     </div>
 </div>
+
 <section>
-    <br>
-    <h1><center>Choix des salles et des demi-journées</center></h1></br>
+    
+    <h1><center>Saisie et Modification des demi-journées</center></h1></br>
         <div class="container">       
             <table class="table text-center table-bordered">
                 <thead class="thead-dark">
@@ -192,10 +193,10 @@ if($_SESSION["idTypeUtilisateur"]=='1'){
 
                 // et on sauvegarde la date de la demi-journée en l'affichant dans un tableau
                     echo "<tr><th scope='col'></th>";
-                    foreach ($lesDemiJournees as $laDemiJournee)
+                    foreach ($lesDemiJournees as $demiJournee)
                     {
                         // on affiche les dates "à la française"
-                        list($year, $month, $day) = explode("-", $laDemiJournee->date);
+                        list($year, $month, $day) = explode("-", $demiJournee->date);
                         $date_fr = $day."/".$month."/".$year;
                         echo "<th scope='col'>$date_fr</th>";
 
@@ -205,7 +206,7 @@ if($_SESSION["idTypeUtilisateur"]=='1'){
                     echo "<tbody>";
 
                 // affichage de la première ligne matin
-                    echo "<tr><th rowspan=2 scope='row' class='align-middle'>Matin</th>";
+                    echo "<tr><th scope='row' class='align-middle'>Matin</th>";
 
                 // ligne matin
                     $lesDemiJournees=$bdd->query("SELECT id, date from demijournee where matinAprem='matin'");      
@@ -214,19 +215,6 @@ if($_SESSION["idTypeUtilisateur"]=='1'){
 
                         $lesDemi=$bdd->query("SELECT idDemiJournee from choixprofdemijournee join demijournee on idDemijournee=$demiJournee->id and idUtilisateur=$id_Util");
                         $selection=$lesDemi -> fetch();
-                        if($lesDemi->rowCount () != 0) {
-                            // si la demi journée représentée par la checkbox a déjà été sélectionnée par l'utilisateur connecté, la checkbox sera déjà cochée pour la demi-journée
-                            echo "<td><input type='checkbox' checked name='chbmatinJ$demiJournee->id' id='chbmatinJ$demiJournee->id' value='$demiJournee->id'/></td>";
-                        } else {
-
-                            echo "<td><input type='checkbox' name='chbmatinJ$demiJournee->id' id='chbmatinJ$demiJournee->id' value='$demiJournee->id'/></td>";
-                        }
-                    }
-
-                        echo "</tr><tr>";
-                    $lesDemiJournees=$bdd->query("SELECT id, date from demijournee where matinAprem='matin'");
-                    foreach ($lesDemiJournees as $demiJournee)
-                    {
 
                         // on prend les salles qui sont déjà attribuées à un utilisateur (s'il en a)
                         $lesSalles=$bdd->query("SELECT libelle, salle.id from utilisateur join Salle on idSalleAtt=Salle.id where utilisateur.id=$id_Util and idSalleAtt is not null");
@@ -234,11 +222,18 @@ if($_SESSION["idTypeUtilisateur"]=='1'){
                         // le SELECT a retourné un enregistrement: on récupère l'enregistrement 
                         $salle =$lesSalles ->fetch();
 
+                        if($lesDemi->rowCount () != 0) {
+                            // si la demi journée représentée par la checkbox a déjà été sélectionnée par l'utilisateur connecté, la checkbox sera déjà cochée pour la demi-journée
+                            echo "<td><input type='checkbox' checked name='chbmatinJ$demiJournee->id' id='chbmatinJ$demiJournee->id' value='$demiJournee->id'/><br>";
+                        } else {
+
+                            echo "<td><input type='checkbox' name='chbmatinJ$demiJournee->id' id='chbmatinJ$demiJournee->id' value='$demiJournee->id'/><br>";
+                        }
                         // si l'utilisateur n'a pas de salle attribuée, on veut lui afficher toutes les salles
                         if($salle==false)
                         {
                             // on prend les salles dans la bdd
-                            echo "<td><select name='salle$demiJournee->id'>";
+                            echo "<select name='salle$demiJournee->id'>";
                             $lesSalles=$bdd->query("SELECT id, libelle from salle where id not in (select idSalle from choixprofdemijournee where idDemiJournee=$demiJournee->id and idUtilisateur!=$id_Util)");
                             foreach ($lesSalles as $salle)
                             {
@@ -261,39 +256,45 @@ if($_SESSION["idTypeUtilisateur"]=='1'){
                         } 
                         else 
                         {
-                            echo "<td>$salle->libelle</td>";
+                            echo "$salle->libelle</td>";
+                            echo "<input type='hidden' name='salle$demiJournee->id' value='$salle->id' />";
                         }
+
+
+
+                        
                     }
 
                     echo "</tr>";
+                    
 
-                    echo "<tr><th rowspan=2 scope='row' class='align-middle'>Après-midi</th>" ;
+                    echo "<tr><th scope='row' class='align-middle'>Après-midi</th>" ;
                 // ligne aprem
                     $lesDemiJournees=$bdd->query("SELECT id, date from demijournee where matinAprem='après-midi'");     
                     foreach ($lesDemiJournees as $demiJournee)
                     {
 
-                        $lesDemi=$bdd->query("SELECT idDemiJournee from choixprofdemijournee where idUtilisateur=$id_Util and idDemiJournee=$demiJournee->id ");
-                        if($lesDemi->rowCount () != 0) {
-                            echo "<td><input type='checkbox' checked name='chbapremJ$demiJournee->id' id='chbapremJ$demiJournee->id' value='$demiJournee->id'/></td>";
-                        } else {
+                        $lesDemi=$bdd->query("SELECT idDemiJournee from choixprofdemijournee join demijournee on idDemijournee=$demiJournee->id and idUtilisateur=$id_Util ");
+                        $selection=$lesDemi -> fetch();
 
-                            echo "<td><input type='checkbox' name='chbapremJ$demiJournee->id' id='chbapremJ$demiJournee->id' value='$demiJournee->id' /></td>";
-                        }
-                    }
-                        echo "</tr><tr>";
-                    $lesDemiJournees=$bdd->query("SELECT id, date from demijournee where matinAprem='matin'");
-                    foreach ($lesDemiJournees as $demiJournee)
-                    {
                         $lesSalles=$bdd->query("SELECT libelle, salle.id from utilisateur join Salle on idSalleAtt=Salle.id where utilisateur.id=$id_Util and idSalleAtt is not null");
 
                         // le SELECT a retourné un enregistrement: on récupère l'enregistrement 
                         $salle =$lesSalles ->fetch();
 
+
+                        if($lesDemi->rowCount () != 0) {
+                            echo "<td><input type='checkbox' checked name='chbapremJ$demiJournee->id' id='chbapremJ$demiJournee->id' value='$demiJournee->id'/><br>";
+                        } else {
+
+                            echo "<td><input type='checkbox' name='chbapremJ$demiJournee->id' id='chbapremJ$demiJournee->id' value='$demiJournee->id' /><br>";
+                        }
+                    
+
                         if($salle==false)
                         {
                             // on prend les salles dans la bdd
-                            echo "<td><select name='salle$demiJournee->id'>";           
+                            echo "<select name='salle$demiJournee->id'>";           
 
                             $lesSalles=$bdd->query("SELECT id, libelle from salle where id not in (select idSalle from choixprofdemijournee where idDemiJournee=$demiJournee->id and idUtilisateur!=$id_Util)");
                             foreach ($lesSalles as $salle)
@@ -317,10 +318,11 @@ if($_SESSION["idTypeUtilisateur"]=='1'){
                         else 
                         {
 
-                            echo "<td>$salle->libelle</td>";
+                            echo "$salle->libelle</td>";
                             echo "<input type='hidden' name='salle$demiJournee->id' value='$salle->id' />";
                         }
                     }
+                
                     
                     
 
@@ -332,8 +334,9 @@ if($_SESSION["idTypeUtilisateur"]=='1'){
                 
                 </table>
                 <div class="d-flex justify-content-center">
-                <input type="submit" class="btn btn-success " name="bouton_valider" id="bouton_valider" value="Valider" />
+                                    <input type="submit" class="btn btn-success" name="bouton_valider" id="bouton_valider" value="Valider" />
                 </div>
+
                 <!-- fin formulaire !-->
             </form>
 
