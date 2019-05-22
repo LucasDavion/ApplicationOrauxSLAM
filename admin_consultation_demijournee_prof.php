@@ -147,7 +147,6 @@ if(isset($_SESSION["idTypeUtilisateur"])==false || $_SESSION["idTypeUtilisateur"
                                   }
                                   ?>
                                 </td>
-
                                 <?php
                               }
                             } catch (PDOException $e) {
@@ -182,18 +181,16 @@ if(isset($_SESSION["idTypeUtilisateur"])==false || $_SESSION["idTypeUtilisateur"
                                   foreach ($lesenregsmatin as $enregmatin) {
                                     echo "<p>$enregmatin->nom <br> Salle : $enregmatin->salle </p>";
                                   }
+                                }
                                   ?>
                                 </td>
                                 <?php
 								//Mettre une couleur rouge quand c'est vide
                                 $lesenregs = $bdd->query("SELECT DISTINCT date, id from demijournee where matinAprem = 'après-Midi'");
-                                foreach ($lesenregs as $enreg) {
                                   $enregsUtiliser = $bdd->query("SELECT idDemiJournee from choixprofdemijournee where idDemiJournee = $enreg->id");
                                   if ($enregsUtiliser->rowCount()==0) {
                                     echo "<td class='table-danger'>Aucun</td>";
                                   }
-                                }
-                              }
                             } catch (PDOException $e) {
                               echo("Err BDALec02Erreur : erreur de SELECT<br>Message d'erreur:".$e->getMessage());
                             }
