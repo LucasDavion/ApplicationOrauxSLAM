@@ -52,7 +52,10 @@ if(isset($_SESSION["idTypeUtilisateur"])==false || $_SESSION["idTypeUtilisateur"
                   <a href="panel_prof_gesoraux.php"><img src="images/logo.png" alt="logo"></a>
               </div>
             </div>
-            <?php  
+            <?php
+            /*-----------------------------------------------
+            affiche le menu en fonction du type d'utilisateur
+            ------------------------------------------------*/
             if($_SESSION["idTypeUtilisateur"]=='1'){
                include "admin_nav.html";
             }else{
