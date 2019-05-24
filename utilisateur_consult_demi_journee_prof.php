@@ -101,11 +101,12 @@ $idSalle="";
 
 
 						<?php
-
-				// on prend les dates dans la bdd
+			/************************
+			  Debut de la ligne date
+			 ************************/
 						$lesDemiJournees=$bdd->query("SELECT distinct date from demijournee");	
 
-				// et on sauvegarde la date de la demi-journée
+				// on sauvegarde la date de la demi-journée
 						echo "<tr><th scope='col'>Date :</th>";
 
 						foreach ($lesDemiJournees as $enreg)
@@ -114,14 +115,19 @@ $idSalle="";
 
 						}
 						echo "</tr>";
-
-
 						echo "</thead>";
+			/************************
+			  Fin de la ligne date
+			 ************************/
+						
+			/************************
+			  Debut de la ligne matin
+			 ************************/
+
 						echo "<tbody>";
 						echo "<tr>
 						<th scope='row' class='align-middle'><strong>Matin</strong></th>" ;
 
-				// ligne matin
 						$lesDemiJournees=$bdd->query("SELECT id from demijournee where matinAprem='matin'");		
 						foreach ($lesDemiJournees as $demiJournee)
 						{
@@ -135,16 +141,16 @@ $idSalle="";
 								echo "<td><input type='checkbox' name='chbmatinJ$demiJournee->id' id='chbmatinJ$demiJournee->id' value='$demiJournee->id' disabled='disabled' /><br>";
 							}
 							
-							//si le prof a une salle atitré
+						// si le prof a une salle attitré
 							$lesSalles=$bdd->query("SELECT libelle, salle.id from utilisateur join Salle on idSalleAtt=Salle.id where utilisateur.id=$id_Util and idSalleAtt is not null");
 
 						// le SELECT a retourné un enregistrement: on récupère l'enregistrement 
 							$salle =$lesSalles->fetch();
 							
-							//si il n'a pas de salle atitré
+						// si il n'a pas de salle attitré
 							if($salle==false)
 							{
-							// on prend les salles dans la bdd
+						// on prend les salles de la bdd
 
 								
 								$lesSalles=$bdd->query("SELECT libelle 
@@ -153,19 +159,20 @@ $idSalle="";
 									where idUtilisateur=$id_Util 
 									and idDemiJournee=$demiJournee->id");
 								
+							// on prend les salles qui ont été enregistré dans la bdd par le prof
 								if($lesSalles->rowCount() !=0 )
 								{
 									$salle=$lesSalles->fetch();
-									
+							// affichage des salles enregistré par le prof	
 									echo "$salle->libelle";	
 								} 
-
+							// si il n'a pas enregistré de salle
 								else 
 								{
 									echo "Aucune salle";
 								}
 							}
-
+  						//affichage des salles attitré
 							else 
 							{
 								echo "$salle->libelle";
@@ -173,11 +180,16 @@ $idSalle="";
 
 						}
 						echo "</tr>";
+			/************************
+			  Fin de la ligne matin
+			 ************************/
 						
-
+			/************************
+			  Debut de la ligne aprem
+			 ************************/
 						echo "<tr>
 						<th scope='row' class='align-middle'><strong>Après-midi</strong></th>" ;
-				// ligne aprem
+			
 						$lesDemiJournees=$bdd->query("SELECT id, date from demijournee where matinAprem='après-midi'");		
 						foreach ($lesDemiJournees as $demiJournee)
 						{
@@ -194,10 +206,11 @@ $idSalle="";
 
 						// le SELECT a retourné un enregistrement: on récupère l'enregistrement 
 							$salle =$lesSalles ->fetch();
-
+							
+						// si le prof n'a pas de salle attitré
 							if($salle==false)
 							{
-							// on prend les salles dans la bdd			
+						// on prend les salles dans la bdd			
 
 								$lesSalles=$bdd->query("SELECT libelle 
 									from choixprofdemijournee 
@@ -208,10 +221,11 @@ $idSalle="";
 								if($lesSalles->rowCount() !=0 )
 								{
 									$salle=$lesSalles->fetch();
-									
+									//on affiche les salles enregistré par le prof 
 									echo "$salle->libelle";	
 								} 
-
+								
+						// si il n'a pas enregistré de salle 
 								else 
 								{
 									echo "Aucune salle";
@@ -219,12 +233,17 @@ $idSalle="";
 							}
 							else 
 							{
+						// affichage des salles attitré
 								echo "$salle->libelle";
 							}
 						}
+			/************************
+			  Fin de la ligne aprem
+			 ************************/
 						?>
 					</tbody>
 					</table>
+			
 
 
 					<!-- fin formulaire !-->
