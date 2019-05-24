@@ -90,7 +90,13 @@ if(isset($_SESSION["idTypeUtilisateur"])==false || $_SESSION["idTypeUtilisateur"
                 <table class="table table-striped">
                   <?php
 
-                  //Select de la date
+                  /*
+                  *********************************************
+                  Sélection des dates de la période sélectionné
+                  *********************************************
+                  */
+
+                  //Select des dates
 
                   try {
                     $lesenregs = $bdd->query("SELECT DISTINCT date from demijournee");
@@ -105,12 +111,14 @@ if(isset($_SESSION["idTypeUtilisateur"])==false || $_SESSION["idTypeUtilisateur"
                           </td>
                           <?php
 
-                          //Affichage de toute le dates format français
+                          //Affichage de toute les dates dans la base de données
 
                           foreach ($lesenregs as $enreg) {
                             ?>
                             <th scope="col">
                               <?php
+
+                              //Conversion au format français
 
                               $datejour = $enreg->date;
                               list($year, $month, $day) = explode("-", $enreg->date);
@@ -130,7 +138,11 @@ if(isset($_SESSION["idTypeUtilisateur"])==false || $_SESSION["idTypeUtilisateur"
                         <tr>
                           <th scope="row">Matin</th>
                           <?php
-                          //Select et affichage des profs pour le matin
+                          /*
+                          ***************************************************
+                          Sélection des professeurs de la période sélectionné
+                          ***************************************************
+                          */
                           $lesenregsId = $bdd->query("SELECT id from demijournee where matinAprem='matin'");
                           foreach ($lesenregsId as $enregId) {
                             $idPeriode = $enregId->id;
@@ -142,6 +154,9 @@ if(isset($_SESSION["idTypeUtilisateur"])==false || $_SESSION["idTypeUtilisateur"
                                 ?>
                                 <td>
                                   <?php
+
+                                  //Affichage des profs
+
                                   foreach ($lesenregsmatin as $enregmatin) {
                                     echo "<p>$enregmatin->nom <br> Salle : $enregmatin->salle </p>";
                                   }
@@ -149,11 +164,16 @@ if(isset($_SESSION["idTypeUtilisateur"])==false || $_SESSION["idTypeUtilisateur"
                                 </td>
                                 <?php
                               }
+
+                              //Message d'erreurs pour le select des professeurs pour les matins en fonction de la date
+
                             } catch (PDOException $e) {
                               echo("Err BDALec01Erreur : erreur de SELECT<br>Message d'erreur:".$e->getMessage());
                             }
                           }
-                          //Mettre une couleur rouge quand c'est vide
+
+                          //Mettre un fond rouge quand c'est vide
+
                           $lesenregs = $bdd->query("SELECT DISTINCT date, id from demijournee where matinAprem = 'matin'");
                           foreach ($lesenregs as $enreg) {
                             $enregsUtiliser = $bdd->query("SELECT idDemiJournee from choixprofdemijournee where idDemiJournee = $enreg->id");
@@ -166,7 +186,11 @@ if(isset($_SESSION["idTypeUtilisateur"])==false || $_SESSION["idTypeUtilisateur"
                         <tr>
                           <th scope="row">Après-Midi</th>
                           <?php
-                          //Select et affichage des profs pour l'aprem
+                          /*
+                          ***************************************************
+                          Sélection des professeurs de la période sélectionné
+                          ***************************************************
+                          */
                           $lesenregs = $bdd->query("SELECT id from demijournee where matinAprem='après-midi'");
                           foreach ($lesenregs as $enreg) {
                             $idPeriode = $enreg->id;
@@ -178,6 +202,9 @@ if(isset($_SESSION["idTypeUtilisateur"])==false || $_SESSION["idTypeUtilisateur"
                                 ?>
                                 <td>
                                   <?php
+
+                                  //Affichage des professeurs
+
                                   foreach ($lesenregsmatin as $enregmatin) {
                                     echo "<p>$enregmatin->nom <br> Salle : $enregmatin->salle </p>";
                                   }
@@ -185,11 +212,16 @@ if(isset($_SESSION["idTypeUtilisateur"])==false || $_SESSION["idTypeUtilisateur"
                                   ?>
                                 </td>
                                 <?php
-								//Mettre une couleur rouge quand c'est vide
+
+                                //Mettre un fond rouge quand c'est vide
+
                                 $lesenregs = $bdd->query("SELECT DISTINCT date, id from demijournee where matinAprem = 'après-Midi'");
                                   $enregsUtiliser = $bdd->query("SELECT idDemiJournee from choixprofdemijournee where idDemiJournee = $enreg->id");
                                   if ($enregsUtiliser->rowCount()==0) {
                                     echo "<td class='table-danger'>Aucun</td>";
+
+                                    //Message d'erreurs pour le select des professeurs pour les après-midi en fonction de la date
+
                                   }
                             } catch (PDOException $e) {
                               echo("Err BDALec02Erreur : erreur de SELECT<br>Message d'erreur:".$e->getMessage());
@@ -201,6 +233,9 @@ if(isset($_SESSION["idTypeUtilisateur"])==false || $_SESSION["idTypeUtilisateur"
                         <?php
                       }
                     }
+
+                    //Message d'erreur pour le select des dates
+
                     catch (PDOException $e) {
                       echo("Err BDALec03Erreur : erreur de SELECT<br>Message d'erreur:".$e->getMessage());
                     }
