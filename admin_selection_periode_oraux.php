@@ -23,7 +23,7 @@ function getDatesBetween($debut, $fin){
         $dates[] = date('Y-m-d', $i);
     }
     return $dates;
-    
+
 }
 
     // connaître tous les jours fériers
@@ -69,66 +69,80 @@ $txt_dateDeb="";
 $txt_dateFin="";
 
 if(isset($_POST['btn_valider'])==true){
-
     extract($_POST);
+
     if(isset($txt_dateDeb)==false){
         $msg=$msg."La date de début est obligatoire.<br>";
     }
     if(isset($txt_dateFin)==false){
         $msg=$msg."La date de fin est obligatoire.<br>";
     }
+
+    // savoir si les professeurs ont déja choisi leurs voeux
+    $lesChoix=$bdd->query("SELECT count(*) as 'choixProf' from passageepreuve where idProfChoix is not null");
+    $choix=$lesChoix->fetch();
+
+    if($choix->choixProf>0)
+    {
+        echo "Il y a déja des professeurs qui ont fait des choix.";
+    } else {
+
+        // suppression de la table demijournee
+        $supp=$bdd->query("Delete from demijournee");
+
         // tableau contenant les dates
-    $dates = getDatesBetween($txt_dateDeb,$txt_dateFin);
+
+        $dates = getDatesBetween($txt_dateDeb,$txt_dateFin);
 
         // tableau contenant les jours fériers
-    $holidays = getHolidays();
-    $trouve=false;
-    $ind=0;
+        $holidays = getHolidays();
+        $trouve=false;
+        $ind=0;
 
-    if($msg==""){
-        foreach ($dates as $date) {  
+        if($msg==""){
+            foreach ($dates as $date) {  
                 // savoir si le jour est un jour férié
-            while($trouve==false && $ind<count($holidays)){
-                if($holidays[$ind]==$date){
-                    $trouve = true;
-                } else {
-                    $ind=$ind+1;
-                }   
-            } 
-            if($trouve== false){
+                while($trouve==false && $ind<count($holidays)){
+                    if($holidays[$ind]==$date){
+                        $trouve = true;
+                    } else {
+                        $ind=$ind+1;
+                    }   
+                } 
+                if($trouve== false){
 
                     // si le jour saisi est différent d'un samedi=6, d'un dimanche=0, on insère le matin
-                if(date("w",strtotime($date))!=0 && date("w",strtotime($date))!=6 ){ 
-                    
+                    if(date("w",strtotime($date))!=0 && date("w",strtotime($date))!=6 ){ 
+
                         // insert du matin                                          
-                    try{
-                        $lesEnregs=$bdd->prepare("insert into demijournee values(0,:par_date,:par_matin,:par_periode)");
-                        $lesEnregs->bindValue(":par_date", $date, PDO::PARAM_STR);
-                        $lesEnregs->bindValue(":par_matin", "matin", PDO::PARAM_STR);
-                        $lesEnregs->bindValue(":par_periode", "N", PDO::PARAM_STR);
-                        $lesEnregs->execute();
-                    } catch(PDOException $e){
-                        echo("ErrInsDemiJour : Erreur lors de l'insertion de la demi-journee du matin dans admin_selection_periode_oraux.php.<br>
-                            Message d'erreur : ".$e->getMessage());
+                        try{
+                            $lesEnregs=$bdd->prepare("insert into demijournee values(0,:par_date,:par_matin,:par_periode)");
+                            $lesEnregs->bindValue(":par_date", $date, PDO::PARAM_STR);
+                            $lesEnregs->bindValue(":par_matin", "matin", PDO::PARAM_STR);
+                            $lesEnregs->bindValue(":par_periode", "N", PDO::PARAM_STR);
+                            $lesEnregs->execute();
+                        } catch(PDOException $e){
+                            echo("ErrInsDemiJour : Erreur lors de l'insertion de la demi-journee du matin dans admin_selection_periode_oraux.php.<br>
+                                Message d'erreur : ".$e->getMessage());
+                        }
                     }
-                }
                     // si le jour saisi est différent d'un samedi=6, d'un dimanche=0,d'un mercredi=3 et n'est pas un jour férier, on insère l'après-midi
-                if(date("w",strtotime($date))!=0 && date("w",strtotime($date))!=6 && date("w",strtotime($date))!=3){
+                    if(date("w",strtotime($date))!=0 && date("w",strtotime($date))!=6 && date("w",strtotime($date))!=3){
                         // insert de l'après-midi
-                    try{
-                        $lesEnregs=$bdd->prepare("insert into demijournee values(0,:par_date,:par_aprem,:par_periode)");
-                        $lesEnregs->bindValue(":par_date", $date, PDO::PARAM_STR);
-                        $lesEnregs->bindValue(":par_aprem", "après-midi", PDO::PARAM_STR);
-                        $lesEnregs->bindValue(":par_periode", "N", PDO::PARAM_STR);
-                        $lesEnregs->execute();
-                    } catch(PDOException $e){
-                        echo ("ErrInsDemiJour : Erreur lors de l'insertion de la demi-journee de l'après-midi dans admin_selection_periode_oraux.php.<br>Message d'erreur : ".$e->getMessage());
+                        try{
+                            $lesEnregs=$bdd->prepare("insert into demijournee values(0,:par_date,:par_aprem,:par_periode)");
+                            $lesEnregs->bindValue(":par_date", $date, PDO::PARAM_STR);
+                            $lesEnregs->bindValue(":par_aprem", "après-midi", PDO::PARAM_STR);
+                            $lesEnregs->bindValue(":par_periode", "N", PDO::PARAM_STR);
+                            $lesEnregs->execute();
+                        } catch(PDOException $e){
+                            echo ("ErrInsDemiJour : Erreur lors de l'insertion de la demi-journee de l'après-midi dans admin_selection_periode_oraux.php.<br>Message d'erreur : ".$e->getMessage());
+                        }
                     }
-                }
-            }                
-            
-        }             
-        
+                }                
+
+            }
+        }
     }
 }
 ?>
