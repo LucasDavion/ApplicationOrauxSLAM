@@ -5,7 +5,7 @@ if(isset($_SESSION["idTypeUtilisateur"])==false || $_SESSION["idTypeUtilisateur"
 }
 
 // $id_Util=$_SESSION['id'];
-$id_Util=$_SESSION["idTypeUtilisateur"];
+$id_Util=$_SESSION["id"];
 $valeur="";
 $val_chb="";
 $msg="";
