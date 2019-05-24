@@ -1,53 +1,62 @@
+// **********CODE PHP**********
 <?php
+// lancement de session
 session_start();
 if (isset($_SESSION["id"])== false ){
   header("Location:connexion_app.php");
 }
+// initialisation des variables
 $nvmdp="";
 $nvmdp2="";
 $ancienmdp="";
 $msg="";
 ?>
 <?php
+// si le bouton valider est appuyé exectuer le script
 $id=$_SESSION["id"];  
 if(isset($_POST["valider"])==true){
-
+  
+// connexion à la base de données
   include "connexion_bd_gesoraux.php";
   extract($_POST);
-
+  
+// sélection des informations de l'utilisateur connecté
   $req=$bdd->query("SELECT * from utilisateur where id=$id");
   $enreg=$req->fetch();
   $mdpactuel=$enreg->motDePasse;
+  // cryptage des mot de passe saisie en sha1
   $motDePasseCrypte = sha1($nvmdp);
   $motDePasseCrypte2 = sha1($nvmdp2);
   $ancienMdpCrypte = $mdpactuel;
   $ancienMdpCrypte2 = sha1($ancienmdp);
-
+  
+// si le mot de passe actuel ne correspond pas au mot de passe saisie : afficher un message d'erreur
   if($ancienMdpCrypte != $ancienMdpCrypte2){
-    $msg="Le mot de passe que vous avez entrer ne correspond pas à votre mot de passe actuel";
-  //echo("Le mot de passe que vous avez entrés ne correspond pas a votre mot de passe actuel.<br>");
+    $msg="Le mot de passe que vous avez entré ne correspond pas à votre mot de passe actuel";
   }
+  // si la ressaisie du nouveau mot de passe souhaité ne corresponde pas : afficher un message d'erreur
     if($motDePasseCrypte != $motDePasseCrypte2){
-   // echo("Les mots de passe entrés ne correspondent pas.<br>");
       $msg="Les mots de passe entrés ne correspondent pas.<br>" .$msg;
     } else {
+      // si tout les critères requis sont valide alors changer le mot de passe dans la base de donnée
       if($ancienMdpCrypte2==$ancienMdpCrypte && $motDePasseCrypte ==$motDePasseCrypte2){  
         $req = $bdd->prepare("update utilisateur set motDePasse=:motDePasseCrypte where id=:id");
         $req->bindValue(":motDePasseCrypte", $motDePasseCrypte, PDO::PARAM_STR);
         $req->bindValue(":id", $id, PDO::PARAM_INT);
-        echo("Mot de passe changer avec succès<br>");
-        $msg="Mot de passe changer avec succès<br>";
+        $msg="Mot de passe changé avec succès<br>";
         $req -> execute();
       }
     }
   }
 ?>
+// ****************************
 <?php
 include"connexion_bd_gesoraux.php"
 ?>
 <!doctype html>
 <html class="no-js" lang="fr-FR">
-
+  
+  // ***********LIEN VERS LES DIFFERENTS FICHIER CSS*******************
 <head>
   <meta charset="utf-8">
   <meta http-equiv="x-ua-compatible" content="ie=edge">
@@ -71,7 +80,8 @@ include"connexion_bd_gesoraux.php"
   <!-- modernizr css -->
   <script src="assets/js/vendor/modernizr-2.8.3.min.js"></script>
 </head>
-
+// ************************************************************************
+  
 <body>
     <!--[if lt IE 8]>
         <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
@@ -139,14 +149,17 @@ if($_SESSION["idTypeUtilisateur"]=='1'){
                 <div class="col-6"><br><br><br>
                   <div class="shadow-lg p-3 mb-5 bg-white rounded">
                     <form action="changement_mot_de_passe.php" method="post">
-                      <div class="form-group">
+                      <div class="form-group">                
+                        // **********CODE HTML**********
                         Ancien mot de passe : <input type="password" name="ancienmdp" placeholder="Veuillez saisir votre ancien mot de passe" required />
                         <br> </br>
-                        Nouveau mot de passe : <input type="password" name="nvmdp" placeholder="Veuillez le nouveau mot de passe souhaité " required />
+                        Nouveau mot de passe : <input type="password" name="nvmdp" placeholder="Veuillez saisir le nouveau mot de passe souhaité " required />
                         <br> <br>
                         Vérification nouveau mot de passe : <input type="password" name="nvmdp2" placeholder="Veuillez ressaisir le mot de passe souhaité" required>
                         <br><br>
                         <input type="submit" class="btn btn-success" name="valider" id="valider" value="Valider"><br>
+                      // *****************************
+                      // affichage du message de l'état : réussi ou échec
                         <?php
                         echo $msg;
                         ?>
