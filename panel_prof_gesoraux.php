@@ -1,5 +1,8 @@
 <?php
 session_start();
+/*------------------------------------------------------
+vérification que l'utilisateur est bien un administrateur
+------------------------------------------------------*/
 if(isset($_SESSION["idTypeUtilisateur"])==false || $_SESSION["idTypeUtilisateur"] != 2){
     header("connexion_app.php");
 }
