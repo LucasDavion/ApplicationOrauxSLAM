@@ -99,8 +99,8 @@ if(isset($_SESSION["idTypeUtilisateur"])==false || $_SESSION["idTypeUtilisateur"
                   //Select des dates
 
                   try {
-                    $lesenregs = $bdd->query("SELECT DISTINCT date from demijournee");
-                    if ($lesenregs->rowCount()==0) {
+                    $lesDates = $bdd->query("SELECT DISTINCT date from demijournee");
+                    if ($lesDates->rowCount()==0) {
                       echo "Aucune date dans la base de données";
                     } else {
                       ?>
@@ -113,20 +113,20 @@ if(isset($_SESSION["idTypeUtilisateur"])==false || $_SESSION["idTypeUtilisateur"
 
                           //Affichage de toute les dates dans la base de données
 
-                          foreach ($lesenregs as $enreg) {
+                          foreach ($lesDates as $uneDate) {
                             ?>
                             <th scope="col">
                               <?php
 
                               //Conversion au format français
 
-                              $datejour = $enreg->date;
-                              list($year, $month, $day) = explode("-", $enreg->date);
-                              $lastmodified = "$day/$month/$year";
+                              $datejour = $uneDate->date;
+                              list($annee, $mois, $jour) = explode("-", $datejour);
+                              $dateFormatFrançais = "$jour/$mois/$annee";
 
                               //Affichage de la date
 
-                              echo"$lastmodified";
+                              echo"$dateFormatFrançais";
                               ?>
                             </th>
                             <?php
@@ -143,12 +143,12 @@ if(isset($_SESSION["idTypeUtilisateur"])==false || $_SESSION["idTypeUtilisateur"
                           Sélection des professeurs de la période sélectionné
                           ***************************************************
                           */
-                          $lesenregsId = $bdd->query("SELECT id from demijournee where matinAprem='matin'");
-                          foreach ($lesenregsId as $enregId) {
-                            $idPeriode = $enregId->id;
+                          $lesPeriodesMatins = $bdd->query("SELECT id from demijournee where matinAprem='matin'");
+                          foreach ($lesPeriodesMatins as $periodeMatin) {
+                            $idPeriode = $periodeMatin->id;
                             try {
-                              $lesenregsmatin = $bdd->query("SELECT utilisateur.nom as 'nom', salle.libelle as 'salle' from choixprofdemijournee join utilisateur on idUtilisateur = utilisateur.id join demijournee on idDemiJournee = demijournee.id join salle on idSalle = salle.id where idDemiJournee = $idPeriode");
-                              if ($lesenregsmatin->rowCount()==0) {
+                              $lesProfsMatins = $bdd->query("SELECT utilisateur.nom as 'nom', salle.libelle as 'salle' from choixprofdemijournee join utilisateur on idUtilisateur = utilisateur.id join demijournee on idDemiJournee = demijournee.id join salle on idSalle = salle.id where idDemiJournee = $idPeriode");
+                              if ($lesProfsMatin->rowCount()==0) {
                                 echo "";
                               } else {
                                 ?>
@@ -157,8 +157,8 @@ if(isset($_SESSION["idTypeUtilisateur"])==false || $_SESSION["idTypeUtilisateur"
 
                                   //Affichage des profs
 
-                                  foreach ($lesenregsmatin as $enregmatin) {
-                                    echo "<p>$enregmatin->nom <br> Salle : $enregmatin->salle </p>";
+                                  foreach ($lesProfsMatins as $profMatin) {
+                                    echo "<p>$profMatin->nom <br> Salle : $profMatin->salle </p>";
                                   }
                                   ?>
                                 </td>
@@ -174,10 +174,10 @@ if(isset($_SESSION["idTypeUtilisateur"])==false || $_SESSION["idTypeUtilisateur"
 
                           //Mettre un fond rouge quand c'est vide
 
-                          $lesenregs = $bdd->query("SELECT DISTINCT date, id from demijournee where matinAprem = 'matin'");
-                          foreach ($lesenregs as $enreg) {
-                            $enregsUtiliser = $bdd->query("SELECT idDemiJournee from choixprofdemijournee where idDemiJournee = $enreg->id");
-                            if ($enregsUtiliser->rowCount()==0) {
+                          $lesPeriodesVides = $bdd->query("SELECT DISTINCT date, id from demijournee where matinAprem = 'matin'");
+                          foreach ($lesPeriodesVides as $periodeVide) {
+                            $periodeUtiliser = $bdd->query("SELECT idDemiJournee from choixprofdemijournee where idDemiJournee = $enreg->id");
+                            if ($periodeUtiliser->rowCount()==0) {
                               echo "<td class='table-danger'>Aucun</td>";
                             }
                           }
@@ -191,12 +191,12 @@ if(isset($_SESSION["idTypeUtilisateur"])==false || $_SESSION["idTypeUtilisateur"
                           Sélection des professeurs de la période sélectionné
                           ***************************************************
                           */
-                          $lesenregs = $bdd->query("SELECT id from demijournee where matinAprem='après-midi'");
-                          foreach ($lesenregs as $enreg) {
+                          $lesPeriodesAprems = $bdd->query("SELECT id from demijournee where matinAprem='après-midi'");
+                          foreach ($lesProfsAprems as $profAprem) {
                             $idPeriode = $enreg->id;
                             try {
-                              $lesenregsmatin = $bdd->query("SELECT utilisateur.nom as 'nom', salle.libelle as 'salle' from choixprofdemijournee join utilisateur on idUtilisateur = utilisateur.id join demijournee on idDemiJournee = demijournee.id join salle on idSalle = salle.id where idDemiJournee = $idPeriode");
-                              if ($lesenregsmatin->rowCount()==0) {
+                              $lesProfsAprems = $bdd->query("SELECT utilisateur.nom as 'nom', salle.libelle as 'salle' from choixprofdemijournee join utilisateur on idUtilisateur = utilisateur.id join demijournee on idDemiJournee = demijournee.id join salle on idSalle = salle.id where idDemiJournee = $idPeriode");
+                              if ($lesProfsAprems->rowCount()==0) {
                                 echo "";
                               } else {
                                 ?>
@@ -205,7 +205,7 @@ if(isset($_SESSION["idTypeUtilisateur"])==false || $_SESSION["idTypeUtilisateur"
 
                                   //Affichage des professeurs
 
-                                  foreach ($lesenregsmatin as $enregmatin) {
+                                  foreach ($lesProfsAprems as $profAprem) {
                                     echo "<p>$enregmatin->nom <br> Salle : $enregmatin->salle </p>";
                                   }
                                 }
@@ -215,9 +215,9 @@ if(isset($_SESSION["idTypeUtilisateur"])==false || $_SESSION["idTypeUtilisateur"
 
                                 //Mettre un fond rouge quand c'est vide
 
-                                $lesenregs = $bdd->query("SELECT DISTINCT date, id from demijournee where matinAprem = 'après-Midi'");
-                                  $enregsUtiliser = $bdd->query("SELECT idDemiJournee from choixprofdemijournee where idDemiJournee = $enreg->id");
-                                  if ($enregsUtiliser->rowCount()==0) {
+                                $lesPeriodesAprems = $bdd->query("SELECT DISTINCT date, id from demijournee where matinAprem = 'après-Midi'");
+                                  $periodeUtiliser = $bdd->query("SELECT idDemiJournee from choixprofdemijournee where idDemiJournee = $enreg->id");
+                                  if ($periodeUtiliser->rowCount()==0) {
                                     echo "<td class='table-danger'>Aucun</td>";
 
                                     //Message d'erreurs pour le select des professeurs pour les après-midi en fonction de la date
