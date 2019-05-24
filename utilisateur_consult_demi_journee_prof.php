@@ -3,10 +3,10 @@ session_start();
 if(isset($_SESSION["idTypeUtilisateur"])==false || $_SESSION["idTypeUtilisateur"] != 2){
     header("connexion_app.php");
 }
+//connexion a la bdd
 include "connexion_bd_gesoraux.php";
+//on recupère l'id de l'utilisateur
 $id_Util=$_SESSION['id'];
-$chbapremJ="";
-$chbmatinJ="";
 $demiJournee="";
 $idDemiJournee="";
 $idSalle="";
@@ -56,13 +56,16 @@ $idSalle="";
                   <a href="panel_prof_gesoraux.php"><img src="images/logo.png" alt="logo"></a>
               </div>
             </div>
-            <?php  
+            <?php
+	// si l'utilisateur est un administrateur
             if($_SESSION["idTypeUtilisateur"]=='1'){
                include "admin_nav.html";
             }else{
+	// si l'utilisateur est un prof	    
                 if($_SESSION["idTypeUtilisateur"]=='2'){
                     include "prof_nav.html";
                 }else{
+	// si l'utilisateur est un surveillant
                     if($_SESSION["idTypeUtilisateur"]=='3'){
                         include "scolarite_nav.html";
                     }   
@@ -101,9 +104,9 @@ $idSalle="";
 
 
 						<?php
-			/************************
-			  Debut de la ligne date
-			 ************************/
+			/******************************************************
+			  On affiche les dates de debut et de fin des épreuves 
+			 ******************************************************/
 						$lesDemiJournees=$bdd->query("SELECT distinct date from demijournee");	
 
 				// on sauvegarde la date de la demi-journée
@@ -116,13 +119,11 @@ $idSalle="";
 						}
 						echo "</tr>";
 						echo "</thead>";
-			/************************
-			  Fin de la ligne date
-			 ************************/
+			
 						
-			/************************
-			  Debut de la ligne matin
-			 ************************/
+			/*****************************************
+			  On affiche les salles de la ligne matin
+			 *****************************************/
 
 						echo "<tbody>";
 						echo "<tr>
@@ -159,14 +160,14 @@ $idSalle="";
 									where idUtilisateur=$id_Util 
 									and idDemiJournee=$demiJournee->id");
 								
-							// on prend les salles qui ont été enregistré dans la bdd par le prof
+							// on prend les salles qui ont été enregistrées dans la bdd par le prof
 								if($lesSalles->rowCount() !=0 )
 								{
 									$salle=$lesSalles->fetch();
-							// affichage des salles enregistré par le prof	
+							// affichage des salles enregistrées par le prof	
 									echo "$salle->libelle";	
 								} 
-							// si il n'a pas enregistré de salle
+							// si il n'a pas enregistrées de salle
 								else 
 								{
 									echo "Aucune salle";
@@ -180,13 +181,10 @@ $idSalle="";
 
 						}
 						echo "</tr>";
-			/************************
-			  Fin de la ligne matin
-			 ************************/
 						
-			/************************
-			  Debut de la ligne aprem
-			 ************************/
+			/*****************************************
+			  On affiche les salles de la ligne aprem
+			 ******************************************/
 						echo "<tr>
 						<th scope='row' class='align-middle'><strong>Après-midi</strong></th>" ;
 			
@@ -221,7 +219,7 @@ $idSalle="";
 								if($lesSalles->rowCount() !=0 )
 								{
 									$salle=$lesSalles->fetch();
-									//on affiche les salles enregistré par le prof 
+									//on affiche les salles enregistrées par le prof 
 									echo "$salle->libelle";	
 								} 
 								
@@ -237,9 +235,6 @@ $idSalle="";
 								echo "$salle->libelle";
 							}
 						}
-			/************************
-			  Fin de la ligne aprem
-			 ************************/
 						?>
 					</tbody>
 					</table>
