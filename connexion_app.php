@@ -12,6 +12,9 @@ if (isset($_POST ["ident"]) && isset($_POST["mdp"]))
 	extract($_POST);
 	if(empty($_POST)==false){
 		try{
+			/*--------------------------------------
+			décrypte le mot de passe qui est en sha1
+			---------------------------------------*/
 			$mdp_crypte=sha1($mdp);
 			$req= $bdd->prepare("SELECT nom, prenom, idTypeUtilisateur, id, idDiscipline, mail FROM utilisateur WHERE identifiant= :par_identifiant AND motDePasse= :par_motDePasse");
 			$req->bindValue(':par_identifiant', $ident, PDO::PARAM_STR);
@@ -25,11 +28,17 @@ if (isset($_POST ["ident"]) && isset($_POST["mdp"]))
 		if($enreg==false){
 			$msg="Veuillez saisir un identifiant et un mot de passe correct";
 		}else{
+			/*------------------------------
+			création des variables de session
+			--------------------------------*/
 			$_SESSION['nom_prenom'] = $enreg->nom." ".$enreg->prenom;
 			$_SESSION['idTypeUtilisateur'] = $enreg->idTypeUtilisateur;
 			$_SESSION['id'] = $enreg->id;
 			$_SESSION['idDiscipline']=$enreg->idDiscipline;
 			$_SESSION['mail']=$enreg->mail;
+			/*-----------------------------------------------------
+			affiche le panel en fonction de notre type d'utilisateur
+			-------------------------------------------------------*/
 			if($enreg->idTypeUtilisateur=='1'){
 				header('Location: panel_admin_gesoraux.php');
 			}else{
@@ -85,6 +94,9 @@ if (isset($_POST ["ident"]) && isset($_POST["mdp"]))
 				<span class="login100-form-title p-b-41">
 					Connexion
 				</span>
+				/*---------------------
+				formulaire de connexion
+				----------------------*/
 				<form class="login100-form validate-form p-b-33 p-t-5" action="connexion_app.php" method="post">
 
 					<div class="wrap-input100 validate-input" data-validate = "Entrer votre identifiant">
