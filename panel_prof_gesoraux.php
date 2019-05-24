@@ -1,7 +1,7 @@
 <?php
 session_start();
 /*------------------------------------------------------
-vérification que l'utilisateur est bien un administrateur
+vérification que l'utilisateur est bien un professeur
 ------------------------------------------------------*/
 if(isset($_SESSION["idTypeUtilisateur"])==false || $_SESSION["idTypeUtilisateur"] != 2){
     header("connexion_app.php");
