@@ -1,6 +1,10 @@
 <?php 
 $msg="";
 session_start();
+/*---------------------------------
+vérification que l'identifiant et le mot de passe existe 
+dans la base de donnée et correspondent
+-----------------------------------*/
 if (isset($_POST ["ident"]) && isset($_POST["mdp"]))
 {
 	include "connexion_bd_gesoraux.php";
