@@ -1,5 +1,8 @@
 <?php
 session_start();
+/*------------------------------------------------------
+vérification que l'utilisateur est bien la scolarité
+------------------------------------------------------*/
 if(isset($_SESSION["idTypeUtilisateur"])==false || $_SESSION["idTypeUtilisateur"] != 3){
     header("connexion_app.php");
 }
@@ -50,6 +53,9 @@ if(isset($_SESSION["idTypeUtilisateur"])==false || $_SESSION["idTypeUtilisateur"
               </div>
             </div>
                       <?php  
+            /*-----------------------------------------------
+            affiche le menu en fonction du type d'utilisateur
+            ------------------------------------------------*/
 if($_SESSION["idTypeUtilisateur"]=='1'){
                include "admin_nav.html";
             }else{
