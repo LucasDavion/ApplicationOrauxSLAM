@@ -6,7 +6,9 @@ include"connexion_bd_gesoraux.php"
 
 <!doctype html>
 <html class="no-js" lang="fr-FR">
-
+/*---------------------------------------
+Liens vers les differents fichiers CSS
+----------------------------------------*/
 <head>
   <meta charset="utf-8">
   <meta http-equiv="x-ua-compatible" content="ie=edge">
