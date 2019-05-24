@@ -50,7 +50,10 @@ Liens vers les differents fichiers CSS
         <div class="logo">
         </div>
       </div>
-      <?php include "prof_nav.html" ?>
+	/*-------------------------------
+	appel du navigateur professeur
+	--------------------------------*/
+      <?php include "prof_nav.html" ?> 
     </div>
     <!-- sidebar menu area end -->
     <!-- main content area start -->
@@ -104,6 +107,9 @@ Liens vers les differents fichiers CSS
 		<form action ="" method="POST">
 			<?php
 				$msg = "";
+				/*----------------------------------------------------
+				séléction des demi-journées et des matins/après-midis
+				----------------------------------------------------*/
 				try{
 					$lesDemijournees=$bdd->query("SELECT demijournee.id as 'idDemi' , idUtilisateur , date , matinAprem from choixprofdemijournee
 					join demijournee on idDemiJournee = demijournee.id
@@ -112,14 +118,21 @@ Liens vers les differents fichiers CSS
 					echo("ERR BDSelect : erreur de lecture table 
 						<br>Message d'erreur:".$e->getMessage());
 				}
-					
+				/*---------------------------------------------------------------------------
+				création de la liste déroulante 
+				---------------------------------------------------------------------------*/	
 				if($lesDemijournees->rowCount () >0) {
 					echo "<select class='form-control' name='demijournee' id='demijournee' onchange='this.form.submit();'>";
 					echo "<option value= '0'>Veuillez sélectionner une plage horaire</option>";
+					/*----------------------------------------------------
+					conversion des dates anglaises en dates françaises
+					----------------------------------------------------*/
 					foreach ($lesDemijournees as $demijournee){
 						list($year, $month, $day) = explode("-", $demijournee->date);
-						$date_fr = $day."/".$month."/".$year;
-						
+						$date_fr = $day."/".$month."/".$year;						
+						/*----------------------------------------------------------------------------
+						affichage de la liste déroulante en fonction de l'id de la table demi-journée
+						-----------------------------------------------------------------------------*/
 						if ($demijournee == $demijournee->idDemi) {
 								echo "<option selected value='$demijournee->idDemi'>$date_fr $demijournee->matinAprem</option>";
 							}else{
@@ -128,11 +141,17 @@ Liens vers les differents fichiers CSS
 					}
 					echo "</select>";					
 				} else{
+					/*----------------------------------------------------
+					message d'erreur si la consultation n'est pas possible
+					----------------------------------------------------*/
 					echo "<br><h4 class='erreur'>Consultation impossible : aucun enregistrement n'a été effectué</h4>";
 				}
 				
 				if (isset ($_POST['demijournee']) == true && $_POST['demijournee']>0) {	
-											
+					/*------------------------------------------------------------------------------------
+					séléction dans la table passageepreuve des informations que l'on souhaite afficher
+					tout en comparant l'idDemijournee de passageEpreuve à la celui de la table demijournee 
+					-------------------------------------------------------------------------------------*/						
 					try {
 						$lesEnregs=$bdd->query("SELECT absence , passageepreuve.idDemiJournee , demijournee.date, eleve.nom as 'nom', eleve.prenom as 'prenom', division.libelle as 'division', natureepreuve.libelle as 'natureepreuve', plage.heureDebut as 'heurepassage' , passageepreuve.id as 'idPassage'
 						from passageepreuve 
@@ -155,7 +174,10 @@ Liens vers les differents fichiers CSS
 					
 					if ($lesEnregs->rowCount () ==0) {
 						echo "<br> Il n'y a aucun élèves sur cette plage horaire";
-					} else {				
+					} else {
+					/*----------------------------------------------------
+					création du tableau avec chaques colonnes
+					----------------------------------------------------*/
 					echo "<br><table class='table table-striped text-center'>";
 					echo "<thead class='thead-dark'>";
 					echo "<tr>"; 
@@ -168,23 +190,35 @@ Liens vers les differents fichiers CSS
 					echo "</tr>";
 					echo "</thead>";
 					echo "<tbody>";
+					/*---------------------------------------
+					affichage des données dans le tableau
+					----------------------------------------*/
 					foreach ($lesEnregs as $enreg) {
 						echo"<tr>";
 						echo"<td>$enreg->nom</td>";
 						echo "<td>$enreg->prenom</td>";
 						echo "<td>$enreg->division</td>";
 						echo "<td>$enreg->natureepreuve</td>";
-						echo "<td>$enreg->heurepassage</td>";			
+						echo "<td>$enreg->heurepassage</td>";
+						/*------------------------------------------------------
+						bouton qui est déjà coché si l'élève a été noté absent
+						------------------------------------------------------*/
 						if($enreg->absence =='O'){							
 							echo"<td><input type='checkbox' checked name='Abs$enreg->idPassage' value='$enreg->idPassage'/></input></td>";
 						}
 						else{
+						/*------------------------------------------------
+						bouton a couché dans le cas ou l'élève est absent
+						-------------------------------------------------*/
 							echo "<td><input type='checkbox' name='Abs$enreg->idPassage' value='$enreg->idPassage'/></input></td>";
 						}						
 						echo "</tr>";						
 					}
 					echo "</tbody>";
 					echo"</table>";
+					/*----------------------------------------------------
+					bouton de validation qui soumet la requête Update
+					----------------------------------------------------*/
 					echo' <input type="submit" class="btn btn-success btn-lg" name="btn_valider" id="btn_valider" value="Soumettre" />';
 				
 					}
@@ -194,7 +228,9 @@ Liens vers les differents fichiers CSS
 				$val_abs="";
 				if(isset($_POST['btn_valider'])== true){
 				extract($_POST);
-				
+				/*-----------------------------------------------------------------------------------------------------------------
+				Update permettant de passer la valeur 'N' quand l'idDemiJournee de passageepreuve est égale à l'id de demijournee
+				------------------------------------------------------------------------------------------------------------------*/
 				try{
 					$req=$bdd->prepare("UPDATE passageepreuve set absence =:par_absence where idDemiJournee = ".$_POST['demijournee']."   ");
 					$req->bindValue(':par_absence', 'N', PDO::PARAM_STR);
@@ -207,6 +243,9 @@ Liens vers les differents fichiers CSS
 				foreach($_POST as $cle=>$valeur){
 					
 					if(strpos($cle,"abs")==0 ){
+							/*-----------------------------------------------------------------------------------------
+							Update permettant de passer la valeur 'O' dans la colonne absence de la table passeepreuve 
+							------------------------------------------------------------------------------------------*/
 							try{
 								$req=$bdd->prepare("UPDATE passageepreuve set absence =:par_absence where id =:par_idabsence  ");
 								$req->bindValue(':par_absence', 'O', PDO::PARAM_STR);
@@ -216,7 +255,7 @@ Liens vers les differents fichiers CSS
 								echo("ErrBDUpdate : erreur update table <br>
 									Message d'erreur :" .$e->getMessage());
 							}
-						$msg = "Les élèves ont bien été noté absent";
+						$msg = "Les élèves ont bien été noté absents";
 						
 						
 					}
