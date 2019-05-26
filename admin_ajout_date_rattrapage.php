@@ -6,7 +6,7 @@ if(isset($_SESSION["idTypeUtilisateur"])==false || $_SESSION["idTypeUtilisateur"
 }
 if (isset($_POST['btn_valider']) == true) {
   extract($_POST);
-  $req=$bdd->prepare("INSERT into demijournee values")
+  $req=$bdd->prepare("INSERT into demijournee values");
 }
 ?>
 
