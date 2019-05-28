@@ -94,9 +94,9 @@ if (isset($_POST ["ident"]) && isset($_POST["mdp"]))
 				<span class="login100-form-title p-b-41">
 					Connexion
 				</span>
-				/*---------------------
-				formulaire de connexion
-				----------------------*/
+			
+				<!--formulaire de connexion-->
+				
 				<form class="login100-form validate-form p-b-33 p-t-5" action="connexion_app.php" method="post">
 
 					<div class="wrap-input100 validate-input" data-validate = "Entrer votre identifiant">
