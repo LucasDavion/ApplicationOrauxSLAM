@@ -119,8 +119,10 @@ if(isset($_SESSION["idTypeUtilisateur"])==false || $_SESSION["idTypeUtilisateur"
 				echo "</select>";
 				echo "</form>";			
 /*
-				 ___
-				/  /
+			    
+			    
+			     ___
+			    /  /
 			   /  /  ___
 			  /  /  /__/
 			 /  /_____   __________
