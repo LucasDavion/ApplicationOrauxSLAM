@@ -12,7 +12,7 @@ if (isset($_POST['discipline'])==true){
 			join epreuve ON idEpreuve = epreuve.id
 			join natureepreuve on idNatureEpreuve = natureepreuve.id
 			JOIN utilisateur ON idProfChoix = utilisateur.id
-          		JOIN discipline as D1 ON utilisateur.idDiscipline = D1.id
+            JOIN discipline as D1 ON utilisateur.idDiscipline = D1.id
 			JOIN discipline as D2 ON epreuve.idDiscipline = D2.id
 			where D2.id = ".$_POST['discipline']."
 			GROUP BY utilisateur.id , D2.libelle , natureepreuve.libelle
@@ -45,7 +45,7 @@ if (isset($_POST['discipline'])==true){
 				$idProf=$comptageProf->id;
 			//fin IF
 			}
-   				echo "<li class='list-group-item'> Nombre d'éleves en $comptageProf->natureEpreuve : $comptageProf->compte </li>";
+   				echo "<li class='list-group-item'> Nombre d'élèves en $comptageProf->natureEpreuve : $comptageProf->compte </li>";
    				echo "</ul>";	
 		//fin FOREACH
 	   	}

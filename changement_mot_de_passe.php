@@ -1,5 +1,6 @@
-// **********CODE PHP**********
 <?php
+//code php
+
 // lancement de session
 session_start();
 if (isset($_SESSION["id"])== false ){
@@ -49,14 +50,13 @@ if(isset($_POST["valider"])==true){
     }
   }
 ?>
-// ****************************
 <?php
 include"connexion_bd_gesoraux.php"
 ?>
 <!doctype html>
 <html class="no-js" lang="fr-FR">
   
-  // ***********LIEN VERS LES DIFFERENTS FICHIER CSS*******************
+  <!--VERS LES DIFFERENTS FICHIER CSS-->
 <head>
   <meta charset="utf-8">
   <meta http-equiv="x-ua-compatible" content="ie=edge">
@@ -80,8 +80,6 @@ include"connexion_bd_gesoraux.php"
   <!-- modernizr css -->
   <script src="assets/js/vendor/modernizr-2.8.3.min.js"></script>
 </head>
-// ************************************************************************
-  
 <body>
     <!--[if lt IE 8]>
         <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
@@ -150,7 +148,7 @@ if($_SESSION["idTypeUtilisateur"]=='1'){
                   <div class="shadow-lg p-3 mb-5 bg-white rounded">
                     <form action="changement_mot_de_passe.php" method="post">
                       <div class="form-group">                
-                        // **********CODE HTML**********
+                        <!--CODE HTML-->
                         Ancien mot de passe : <input type="password" name="ancienmdp" placeholder="Veuillez saisir votre ancien mot de passe" required />
                         <br> </br>
                         Nouveau mot de passe : <input type="password" name="nvmdp" placeholder="Veuillez saisir le nouveau mot de passe souhaité " required />
@@ -158,8 +156,7 @@ if($_SESSION["idTypeUtilisateur"]=='1'){
                         Vérification nouveau mot de passe : <input type="password" name="nvmdp2" placeholder="Veuillez ressaisir le mot de passe souhaité" required>
                         <br><br>
                         <input type="submit" class="btn btn-success" name="valider" id="valider" value="Valider"><br>
-                      // *****************************
-                      // affichage du message de l'état : réussi ou échec
+                      <!--affichage du message de l'état : réussi ou échec-->
                         <?php
                         echo $msg;
                         ?>

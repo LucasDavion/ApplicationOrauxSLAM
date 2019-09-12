@@ -93,6 +93,7 @@ include"connexion_bd_gesoraux.php"
 					<form action ="" method="POST">
 						<?php
 							$msg = "";
+							$compt=0;
 							try{
 								$lesDemijournees=$bdd->query("SELECT demijournee.id as 'idDemi' , idUtilisateur , date , matinAprem from choixprofdemijournee
 								join demijournee on idDemiJournee = demijournee.id
@@ -166,6 +167,7 @@ include"connexion_bd_gesoraux.php"
 										echo "<td>$enreg->heurepassage</td>";			
 										if($enreg->absence =='O'){							
 											echo"<td><input type='checkbox' checked name='Abs$enreg->idPassage' value='$enreg->idPassage'/></input></td>";
+											$compt ++;
 										}
 										else{
 											echo "<td><input type='checkbox' name='Abs$enreg->idPassage' value='$enreg->idPassage'/></input></td>";
@@ -174,25 +176,25 @@ include"connexion_bd_gesoraux.php"
 									}
 									echo "</tbody>";
 									echo"</table>";
-									echo' <input type="submit" class="btn btn-success btn-lg" name="btn_valider" id="btn_valider" value="Soumettre" />';
-								
+									echo"<div class='d-flex justify-content-center'>";
+									echo'<input type="submit" class="btn btn-success btn-lg" name="btn_valider" id="btn_valider" value="Soumettre" />';
+									echo "</div>";
 								}
 							}	
 											
 							$valeur="";
 							$val_abs="";
 							if(isset($_POST['btn_valider'])== true){
+								echo 'cc';
 								extract($_POST);
 								
 								try{
-									$req=$bdd->prepare("UPDATE passageepreuve set absence =:par_absence where idDemiJournee = ".$_POST['demijournee']."   ");
-									$req->bindValue(':par_absence', 'N', PDO::PARAM_STR);
+									$req=$bdd->prepare("UPDATE passageepreuve set absence ='N' where absence = 'O' ");									
 									$req->execute();		
 								}catch(PDOException $e){
 									echo("ErrBDUpdate : erreur update table <br>
-										Message d'erreur :" .$e->getMessage());
+										Message d'erreur :" .$e->getMessage());									
 								}
-								
 								foreach($_POST as $cle=>$valeur){
 									
 									if(strpos($cle,"abs")==0 ){
@@ -205,11 +207,15 @@ include"connexion_bd_gesoraux.php"
 											echo("ErrBDUpdate : erreur update table <br>
 												Message d'erreur :" .$e->getMessage());
 										}
-										$msg = "Les élèves ont bien été noté absent";
 									}
-											
-								}
-								echo $msg;
+								} 
+								if($compt == 1){
+										$msg = "L'élève a bien été noté(e) absent(e)";
+									}else{
+										$msg = "Les élèves ont bien été notés absents";
+									}
+								echo $compt;
+								echo $msg; 
 							}				
 					?>
 					</form>
