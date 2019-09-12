@@ -134,7 +134,7 @@ if(isset($_POST['bouton_valider'])==true){
         <div class="sidebar-menu">
             <div class="sidebar-header">
                 <div class="logo">
-                  <a href="index.html"><img src="images/logo.png" alt="logo"></a>
+                  <a href="panel_prof_gesoraux.php"><img src="images/logo.png" alt="logo"></a>
               </div>
           </div>
           <?php  
