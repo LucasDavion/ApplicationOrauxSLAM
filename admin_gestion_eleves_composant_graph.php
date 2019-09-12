@@ -21,7 +21,7 @@
 				<div class="form-group">
 					<label class="col-md-5"><b>Date de naissance :</b></label><br>
 					<div class="col-md-12">
-						<input class="form-control"type="Date" name="txt_dateNai" value="<?php echo $txt_dateNai;?>"required />
+						<input class="form-control" type="Date" name="txt_dateNai" value="<?php echo $txt_dateNai;?>" required />
 					</div>
 				</div>
 
@@ -38,7 +38,7 @@
 							echo"</div>";
 							echo"<div class='form-check form-check-inline'>";
 							if($rbt_tiersTemps == "N"){
-								echo "<input class='form-check-input'' type='radio' checked name='rbt_tiersTemps' id='tiersNon' value='N'>Non";
+								echo "<input class='form-check-input' type='radio' checked name='rbt_tiersTemps' id='tiersNon' value='N'>Non";
 							} else {
 								echo "<input class='form-check-input' type='radio' name='rbt_tiersTemps' id='tiersNon' value='N'>Non";
 							}
@@ -62,9 +62,9 @@
 								if($lesEnregs->rowCount()>0) {
 									foreach ($lesEnregs as $enreg) {
 										if($lst_civilite == $enreg->libelle){
-											echo "<option class='form-group'selected value='$enreg->id'>$enreg->libelle</option>";
+											echo "<option class='form-group' selected value='$enreg->id'>$enreg->libelle</option>";
 										} else {
-											echo "<option class='form-group'value='$enreg->id'>$enreg->libelle</option>";
+											echo "<option class='form-group' value='$enreg->id'>$enreg->libelle</option>";
 										}
 									}
 								}
@@ -78,7 +78,6 @@
 					<div class="col-md-12">
 						<select class="custom-select custom-select" name="lst_division" required>
 							<?php 
-								include "connexion_bd_gesoraux.php";
 								try{
 									$lesEnregs=$bdd->query("SELECT id,libelle from division");
 								} catch(PDOException $e) {
@@ -88,9 +87,9 @@
 								if($lesEnregs->rowCount()>0) {
 									foreach ($lesEnregs as $enreg) {
 										if($lst_division == $enreg->libelle){
-											echo "<option class='form-group'selected value='$enreg->id'>$enreg->libelle</option>";
+											echo "<option class='form-group' selected value='$enreg->id'>$enreg->libelle</option>";
 										} else {
-											echo "<option class='form-group'value='$enreg->id'>$enreg->libelle</option>";
+											echo "<option class='form-group' value='$enreg->id'>$enreg->libelle</option>";
 										}
 									}
 								}
@@ -104,7 +103,6 @@
 					<div class="col-md-12">
 						<select class="custom-select custom-select" name="lst_section">
 							<?php 
-								include "connexion_bd_gesoraux.php";
 								try{
 									$lesEnregs=$bdd->query("SELECT id,libelle from section");
 								} catch(PDOException $e) {
@@ -115,9 +113,9 @@
 									echo"<option value=0>Choisissez une section si il y en a une.</option>";
 									foreach ($lesEnregs as $enreg) {
 										if($lst_section == $enreg->libelle){
-											echo "<option class='form-group'selected value='$enreg->id'>$enreg->libelle</option>";
+											echo "<option class='form-group' selected value='$enreg->id'>$enreg->libelle</option>";
 										} else {
-											echo "<option class='form-group'value='$enreg->id'>$enreg->libelle</option>";
+											echo "<option class='form-group' value='$enreg->id'>$enreg->libelle</option>";
 										}
 									}
 								}

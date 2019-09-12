@@ -7,15 +7,15 @@
 	$txt_prenom="";
 	$txt_dateNai="";
 	$rbt_tiersTemps="N";
-	$lst_civilite=1;
-	$lst_division=1;
+	$lst_civilite="";
+	$lst_division="";
 	$lst_section="";
 	$rbt_benefLV1="N";
 	$rbt_benefLV2="N";
 	$rbt_derogLV1="N";
 	$rbt_derogLV2="N";
-	$lst_epreuveLV1=1;
-	$lst_epreuveLV2=2;
+	$lst_epreuveLV1="";
+	$lst_epreuveLV2="";
 
 
 	if(isset($_POST['btn_valider'])==true){
@@ -60,7 +60,7 @@
 		if($msg==""){
 			try{
 				//insertion de l'élève
-				$insert_eleve=$bdd->prepare("insert into eleve values(0,:par_nom, :par_prenom,:par_date,:par_tiers,:par_idCivilite,:par_idSection,:par_idDivision)");
+				$insert_eleve=$bdd->prepare("INSERT into eleve values(0,:par_nom, :par_prenom,:par_date,:par_tiers,:par_idCivilite,:par_idSection,:par_idDivision)");
 				
 				$insert_eleve->bindValue(':par_nom', $txt_nom, PDO::PARAM_STR);
 				$insert_eleve->bindValue(':par_prenom', $txt_prenom, PDO::PARAM_STR);
@@ -82,7 +82,7 @@
 			}
 
 			try{
-				$insert_epreuve1=$bdd->prepare("insert into passageepreuve values(0,:par_benef,:par_derog,:par_absence,:par_idElev,:par_idDemiJournee,:par_idPlage,:par_idEpreuve,:par_idProfChoix,:par_idSalle,:par_idProfAffecte)");
+				$insert_epreuve1=$bdd->prepare("INSERT into passageepreuve values(0,:par_benef,:par_derog,:par_absence,:par_idElev,:par_idDemiJournee,:par_idPlage,:par_idEpreuve,:par_idProfChoix,:par_idSalle,:par_idProfAffecte)");
 
 				$insert_epreuve1->bindValue(':par_benef',$rbt_benefLV1,PDO::PARAM_STR);
 				$insert_epreuve1->bindValue(':par_derog',$rbt_derogLV1,PDO::PARAM_STR);
@@ -101,7 +101,7 @@
 				die("ErrInsertEpreuve1 : Erreur lors de l'insertion de l'épreuve 1 dans admin_gestion_eleves_ajout_exec.php<br>Message d'erreur : ".$e->getMessage());
 			}
 			try{
-				$insert_epreuve2=$bdd->prepare("insert into passageepreuve values(0,:par_benef,:par_derog,:par_absence,:par_idElev,:par_idDemiJournee,:par_idPlage,:par_idEpreuve,:par_idProfChoix,:par_idSalle,:par_idProfAffecte)");
+				$insert_epreuve2=$bdd->prepare("INSERT into passageepreuve values(0,:par_benef,:par_derog,:par_absence,:par_idElev,:par_idDemiJournee,:par_idPlage,:par_idEpreuve,:par_idProfChoix,:par_idSalle,:par_idProfAffecte)");
 
 				$insert_epreuve2->bindValue(':par_benef',$rbt_benefLV2,PDO::PARAM_STR);
 				$insert_epreuve2->bindValue(':par_derog',$rbt_derogLV2,PDO::PARAM_STR);
@@ -116,11 +116,12 @@
 
 				$insert_epreuve2->execute();
 
-
 			} catch(PDOException $e) {
 				die("ErrInsertEpreuve2 : Erreur lors de l'insertion de l'épreuve 2 dans admin_gestion_eleves_ajout_exec.php<br>Message d'erreur : ".$e->getMessage());
 			}
 			$msg="L'élève a bien été ajouté.";
+
+			header('Location:admin_gestion_eleves_consultation.php?msg='.$msg);
 		}
 	}
 	echo($msg);
@@ -313,20 +314,20 @@ if($_SESSION["idTypeUtilisateur"]=='1'){
 					<div class="col-md-12">
 						<select class="custom-select custom-select" name="lst_epreuveLV1">
 							<?php 
-								include "connexion_bd_gesoraux.php";
+								$natuId1=1;
 								try{
-									$lesEnregs=$bdd->query("SELECT id,libelle from discipline");
+									$lesEnregs=$bdd->query("SELECT epreuve.id as idEpr, discipline.libelle as discLib, natureepreuve.libelle as natLibe from epreuve join discipline on discipline.id=idDiscipline join natureepreuve on idNatureEpreuve=natureepreuve.id where natureepreuve.id=$natuId1");
 								} catch(PDOException $e) {
 									die("ErrSelecCiv : erreur lors de la sélection des civilités dans admin_gestion_eleves_composant_graph.php<br>
 										Message d'erreur : ".$e->getMessage());
 								}
 								if($lesEnregs->rowCount()>0) {
 									foreach ($lesEnregs as $enreg) {
-										if($lst_epreuveLV1 == $enreg->id){
-											echo "<option class='form-group' selected value='$enreg->id'>$enreg->libelle</option>";
+										if($lst_epreuveLV1 == $enreg->idEpr){
+											echo "<option class='form-group' selected value='$enreg->idEpr'>$enreg->discLib $enreg->natLibe</option>";
 										} else {
-											echo "<option class='form-group' value='$enreg->id'>$enreg->libelle</option>";
-										}
+											echo "<option class='form-group' value='$enreg->idEpr'>$enreg->discLib $enreg->natLibe</option>";
+										}																	
 									}
 								}
 							?>
@@ -338,20 +339,20 @@ if($_SESSION["idTypeUtilisateur"]=='1'){
 					<div class="col-md-12">
 						<select class="custom-select custom-select" name="lst_epreuveLV2">
 							<?php 
-								include "connexion_bd_gesoraux.php";
+							$natuId2=2;
 								try{
-									$lesEnregs=$bdd->query("SELECT id,libelle from discipline");
+									$lesEnregs=$bdd->query("SELECT epreuve.id as idEpr, discipline.libelle as discLib, natureepreuve.libelle as natLibe from epreuve join discipline on discipline.id=idDiscipline join natureepreuve on idNatureEpreuve=natureepreuve.id where natureepreuve.id=$natuId2");
 								} catch(PDOException $e) {
 									die("ErrSelecCiv : erreur lors de la sélection des civilités dans admin_gestion_eleves_composant_graph.php<br>
 										Message d'erreur : ".$e->getMessage());
 								}
 								if($lesEnregs->rowCount()>0) {
 									foreach ($lesEnregs as $enreg) {
-										if($lst_epreuveLV2 == $enreg->id){
-											echo "<option class='form-group' selected value='$enreg->id'>$enreg->libelle</option>";
+										if($lst_epreuveLV2 == $enreg->idEpr){
+											echo "<option class='form-group' selected value='$enreg->idEpr'>$enreg->discLib $enreg->natLibe</option>";
 										} else {
-											echo "<option class='form-group' value='$enreg->id'>$enreg->libelle</option>";
-										}
+											echo "<option class='form-group' value='$enreg->idEpr'>$enreg->discLib $enreg->natLibe</option>";
+										}																	
 									}
 								}
 							?>

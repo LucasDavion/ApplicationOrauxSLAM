@@ -7,7 +7,16 @@ if(isset($_SESSION["idTypeUtilisateur"])==false || $_SESSION["idTypeUtilisateur"
 ?>
 <?php 
 	$msg="";
-	if(isset($_GET['idElev'])==true && $_GET['idElev']>0 && isset($_GET['idEp'])==true && $_GET['idEp']>0){
+	$txt_nom="";
+	$txt_prenom="";
+	$txt_dateNai="";
+	$rbt_tiersTemps="";
+	$lst_civilite="";
+	$lst_division="";
+	$rbt_benef="";
+	$rbt_derog="";
+	if(count($_POST)==0 && isset($_GET['idElev'])==true && $_GET['idElev']>0 && isset($_GET['idEp'])==true && $_GET['idEp']>0){
+
 		$idEle=$_GET['idElev'];
 		$idEpre=$_GET['idEp'];
 		include"connexion_bd_gesoraux.php";
@@ -31,7 +40,7 @@ if(isset($_SESSION["idTypeUtilisateur"])==false || $_SESSION["idTypeUtilisateur"
 			$eleve=$lesEnregsE->fetch();
 		try{
 			// select des infos de l'épreuve 
-			$lesEnregP=$bdd->prepare("SELECT inscritBenef,derogation,discipline.libelle as disLib,natureepreuve.libelle as natLib from passageepreuve 
+			$lesEnregP=$bdd->prepare("SELECT inscritBenef,derogation,discipline.libelle as disLib,natureepreuve.libelle as natLib, epreuve.id as idE, natureepreuve.id as natId from passageepreuve 
 				join epreuve on idEpreuve=epreuve.id 
 				join natureepreuve on idNatureEpreuve=natureepreuve.id 
 				join discipline on idDiscipline=discipline.id 
@@ -44,8 +53,7 @@ if(isset($_SESSION["idTypeUtilisateur"])==false || $_SESSION["idTypeUtilisateur"
 				<br>Message d'erreur :".$e->getMessage());
 		}
 			$passage=$lesEnregP->fetch();
-			
-			
+			// attribution des variables
 			$txt_nom=$eleve->nom;
 			$txt_prenom=$eleve->prenom;
 			$txt_dateNai=$eleve->dateNaissance;
@@ -55,12 +63,11 @@ if(isset($_SESSION["idTypeUtilisateur"])==false || $_SESSION["idTypeUtilisateur"
 			$lst_section=$eleve->secLib;
 			$rbt_benef=$passage->inscritBenef;			
 			$rbt_derog=$passage->derogation;			
-			$lst_epreuve=$passage->disLib;
-			
+			$lst_epreuve=$passage->idE;
 
+			$natuId=$passage->natId;			
 	}
-			
-	
+	else{	
 	if(isset($_POST['btn_valider'])==true){
 		extract($_POST);
 		if (isset($txt_nom)==false) {
@@ -92,7 +99,6 @@ if(isset($_SESSION["idTypeUtilisateur"])==false || $_SESSION["idTypeUtilisateur"
 		if(isset($lst_epreuve)==false) {
 			$msg=$msg."L'épreuve n'a pas été sélectionné.<br>";
 		} 
-
 		if($msg==""){
 			include"connexion_bd_gesoraux.php";
 			try{
@@ -128,6 +134,7 @@ if(isset($_SESSION["idTypeUtilisateur"])==false || $_SESSION["idTypeUtilisateur"
 				$lesEnregP->bindValue(':par_idEpreuve',$lst_epreuve,PDO::PARAM_INT);
 			
 				$lesEnregP->execute();
+
 			} catch(PDOException $e) {
 				echo("ErrUpdateEpreuve : Erreur lors de la modification de l'épreuve de l'élève dans admin_gestion_eleves_modification.php.
 				<br>Message d'erreur :".$e->getMessage());
@@ -135,9 +142,10 @@ if(isset($_SESSION["idTypeUtilisateur"])==false || $_SESSION["idTypeUtilisateur"
 
 				$msg="La modification a bien été effectué.";
 
-				header('Location: admin_gestion_eleves_consultation.php?msg='.$msg);
+				header('Location:admin_gestion_eleves_consultation.php?msg='.$msg);
 			
 		}
+	}
 	}			
 ?>
 <!doctype html>
@@ -168,64 +176,7 @@ if(isset($_SESSION["idTypeUtilisateur"])==false || $_SESSION["idTypeUtilisateur"
 </head>
 
 <body>
-    <!--[if lt IE 8]>
-        <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
-    <![endif]-->
-    <!-- preloader area start -->
-    <div id="preloader">
-        <div class="loader"></div>
-    </div>
-    <!-- preloader area end -->
-    <!-- page container area start -->
-    <div class="page-container">
-        <!-- sidebar menu area start -->
-        <div class="sidebar-menu">
-            <div class="sidebar-header">
-                <div class="logo">
-                  <a href="index.html"><img src="images/logo.png" alt="logo"></a>
-              </div>
-          </div>
-          <?php  
-if($_SESSION["idTypeUtilisateur"]=='1'){
-               include "admin_nav.html";
-            }else{
-                if($_SESSION["idTypeUtilisateur"]=='2'){
-                    include "prof_nav.html";
-                }else{
-                    if($_SESSION["idTypeUtilisateur"]=='3'){
-                        include "scolarite_nav.html";
-                    }   
-                }
-            }
-          ?>
-
-      </div>
-      <!-- sidebar menu area end -->
-      <!-- main content area start -->
-      <div class="main-content">
-        <!-- header area start -->
-        <div class="header-area">
-            <div class="row align-items-center">
-                <!-- nav and search button -->
-                <div class="nav-btn pull-left">
-                    <span></span>
-                    <span></span>
-                    <span></span>
-                </div>
-                <div class="col-auto">
-                </div>
-                <div class="col-auto mr-auto"></div>
-                <!-- Nav Item - User Information -->
-                <?php 
-                    include "bouton_profil.php";
-                     ?>
-    </div>
-</div>
-<section>
-	<br>
-<h1 class="text-center">Modification d'un élève</h1> <br>
-<form action="" method="post">	
-
+	<form method='POST'>
 		<?php
 			include"admin_gestion_eleves_composant_graph.php";
 		?>
@@ -278,18 +229,40 @@ if($_SESSION["idTypeUtilisateur"]=='1'){
 				<select class="custom-select custom-select" name="lst_epreuve">
 					<?php 
 						include "connexion_bd_gesoraux.php";
-						try{
-							$lesEnregs=$bdd->query("SELECT id,libelle from discipline");
-						} catch(PDOException $e) {
-							die("ErrSelecCiv : erreur lors de la sélection des civilités dans admin_gestion_eleves_composant_graph.php<br>
-								Message d'erreur : ".$e->getMessage());
+
+						if($natuId==1){
+							try{
+								$lesEnregs=$bdd->query("SELECT epreuve.id as idEpr, discipline.libelle as discLib, natureepreuve.libelle from epreuve join discipline on discipline.id=idDiscipline join natureepreuve on idNatureEpreuve=natureepreuve.id where natureepreuve.id=$natuId");
+							} catch(PDOException $e) {
+								die("ErrSelecCiv : erreur lors de la sélection des civilités dans admin_gestion_eleves_composant_graph.php<br>
+									Message d'erreur : ".$e->getMessage());
+							}
+							if($lesEnregs->rowCount()>0) {
+								foreach ($lesEnregs as $enreg) {
+									if($lst_epreuve == $enreg->idEpr){
+										echo "<option class='form-group' selected value='$enreg->idEpr'>$enreg->discLib</option>";
+									} else {
+										echo "<option class='form-group' value='$enreg->idEpr'>$enreg->discLib</option>";
+									}																	
+								}
+							}
 						}
-						if($lesEnregs->rowCount()>0) {
-							foreach ($lesEnregs as $enreg) {
-								if($lst_epreuve == $enreg->libelle){
-									echo "<option class='form-group' selected value='$enreg->id'>$enreg->libelle</option>";
-								} else {
-									echo "<option class='form-group' value='$enreg->id'>$enreg->libelle</option>";
+						else {
+							if($natuId==2){
+								try{
+									$lesEnregs=$bdd->query("SELECT epreuve.id as idEpr, discipline.libelle as discLib, natureepreuve.libelle as natLibe from epreuve join discipline on discipline.id=idDiscipline join natureepreuve on idNatureEpreuve=natureepreuve.id where natureepreuve.id=$natuId");
+								} catch(PDOException $e) {
+									die("ErrSelecCiv : erreur lors de la sélection des civilités dans admin_gestion_eleves_composant_graph.php<br>
+										Message d'erreur : ".$e->getMessage());
+								}
+								if($lesEnregs->rowCount()>0) {
+									foreach ($lesEnregs as $enreg) {
+										if($lst_epreuve == $enreg->idEpr){
+											echo "<option class='form-group' selected value='$enreg->idEpr'>$enreg->discLib $enreg->natLibe</option>";
+										} else {
+											echo "<option class='form-group' value='$enreg->idEpr'>$enreg->discLib $enreg->natLibe</option>";
+										}																	
+									}
 								}
 							}
 						}
@@ -297,52 +270,18 @@ if($_SESSION["idTypeUtilisateur"]=='1'){
 				</select>
 			</div>
 		</div>
-		<div class="form-group d-flex justify-content-center">
-			<input class='btn btn-success btn-lg' type="submit" name="btn_valider" value="Valider" />
-		</div>
+
+		<div >
+			<input type="submit" name="btn_valider" value="Valider" />
+		</div> 
+
+		<input type="hidden" name="idEle" value="<?php echo $idEle;?>"/> 
+		<input type="hidden" name="idEpre" value="<?php echo $idEpre;?>"/>
+			
+</form>	
 		<?php
 			echo $msg;
-		?>
-		<input type="hidden" name="id" value="<?php echo $idEle,$idEpre;?>"/>
-			
-	</form>	
-</div>
-</div>
-		<div class="col">
-		</div>	
-	</div>	
-	</div>
-	</div>	
-	</div>
+		?>	
 </section>
-</div>
-</div>
-<!-- jquery latest version -->
-<script src="assets/js/vendor/jquery-2.2.4.min.js"></script>
-<!-- bootstrap 4 js -->
-<script src="assets/js/popper.min.js"></script>
-<script src="assets/js/bootstrap.min.js"></script>
-<script src="assets/js/owl.carousel.min.js"></script>
-<script src="assets/js/metisMenu.min.js"></script>
-<script src="assets/js/jquery.slimscroll.min.js"></script>
-<script src="assets/js/jquery.slicknav.min.js"></script>
-
-<!-- start chart js -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.2/Chart.min.js"></script>
-<!-- start highcharts js -->
-<script src="https://code.highcharts.com/highcharts.js"></script>
-<!-- start zingchart js -->
-<script src="https://cdn.zingchart.com/zingchart.min.js"></script>
-<script>
-    zingchart.MODULESDIR = "https://cdn.zingchart.com/modules/";
-    ZC.LICENSE = ["569d52cefae586f634c54f86dc99e6a9", "ee6b7db5b51705a13dc2339db3edaf6d"];
-</script>
-<!-- all line chart activation -->
-<script src="assets/js/line-chart.js"></script>
-<!-- all pie chart -->
-<script src="assets/js/pie-chart.js"></script>
-<!-- others plugins -->
-<script src="assets/js/plugins.js"></script>
-<script src="assets/js/scripts.js"></script>
-</body>
+	</body>
 </html>
