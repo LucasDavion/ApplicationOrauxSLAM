@@ -1,7 +1,7 @@
 
 <?php
 session_start();
-if(isset($_SESSION["idTypeUtilisateur"])==false || $_SESSION["idTypeUtilisateur"] != 1){
+if(isset($_SESSION["idTypeUtilisateur"])==false || $_SESSION["idTypeUtilisateur"] != 1 && $_SESSION["idTypeUtilisateur"] != 3){
     header("Location: connexion_app.php");
 }
 ?>
