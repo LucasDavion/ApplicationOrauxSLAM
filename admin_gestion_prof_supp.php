@@ -3,34 +3,34 @@
 	//include "session_admin.php";
 
 	//on initialise la variable $msg qui contiendra la liste des erreurs
-	$msg="";
+$msg="";
 
 	//-------------------------------------------------------------
 	//est ce que l'id du professeur à supprimer à été passé en GET ?
 	//-------------------------------------------------------------
-	if(isset($_GET['id'])==true && $_GET['id']>0){
+if(isset($_GET['id'])==true && $_GET['id']>0){
 		//connnexion à la base de données
-		include "connexion_bd_gesoraux.php";
-		$id=$_GET['id'];
-		try{
+	include "connexion_bd_gesoraux.php";
+	$id=$_GET['id'];
+	try{
 			//---------------------------------------------------------
 			//on supprime (requête delete) le professeur dont l'identifiant 
 			//est dans $_GET['id']
 			//---------------------------------------------------------
-			$id=$_GET['id'];
-			$req=$bdd->prepare("DELETE FROM utilisateur where id=:par_id");
-			$req->bindValue (':par_id', $id, PDO::PARAM_INT);
-			$req->execute();
+		$id=$_GET['id'];
+		$req=$bdd->prepare("DELETE FROM utilisateur where id=:par_id");
+		$req->bindValue (':par_id', $id, PDO::PARAM_INT);
+		$req->execute();
 			//on indique dans la variable $msg que tout s'est bien passé
 			//et on fait une redirection(header) vers gestion_prof_admin.php
 			//en passant la variable $msg
 
-			$msg="Le professeur a bien été supprimé";
-			header('Location: admion_gestion_prof.php?msg='.$msg);
+		$msg="Le professeur a bien été supprimé";
+		header('Location: admin_gestion_prof_consultation.php?msg='.$msg);
 
-		}catch(PDOException $e){
-			echo("Err BDInsert  : erreur suppression table employe dans admion_gestion_prof_supp.php<br>
+	}catch(PDOException $e){
+		echo("Err BDInsert  : erreur suppression table employe dans admin_gestion_prof_supp.php<br>
 			Message d'erreur :".$e->getMessage());
-		}
 	}
+}
 ?>
