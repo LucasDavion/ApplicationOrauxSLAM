@@ -3,7 +3,7 @@ session_start();
 /*------------------------------------------------------
 vérification que l'utilisateur est bien un administrateur
 ------------------------------------------------------*/
-if(isset($_SESSION["idTypeUtilisateur"])==false || $_SESSION["idTypeUtilisateur"] != 1){
+if(isset($_SESSION["idTypeUtilisateur"])==false || $_SESSION["idTypeUtilisateur"] != 1 && $_SESSION["idTypeUtilisateur"] != 2){
     header("Location: connexion_app.php");
 }
 ?>
