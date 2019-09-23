@@ -93,7 +93,6 @@ include"connexion_bd_gesoraux.php"
 					<form action ="" method="POST">
 						<?php
 							$msg = "";
-							$compt=0;
 							try{
 								$lesDemijournees=$bdd->query("SELECT demijournee.id as 'idDemi' , idUtilisateur , date , matinAprem from choixprofdemijournee
 								join demijournee on idDemiJournee = demijournee.id
@@ -167,7 +166,6 @@ include"connexion_bd_gesoraux.php"
 										echo "<td>$enreg->heurepassage</td>";			
 										if($enreg->absence =='O'){							
 											echo"<td><input type='checkbox' checked name='Abs$enreg->idPassage' value='$enreg->idPassage'/></input></td>";
-											$compt ++;
 										}
 										else{
 											echo "<td><input type='checkbox' name='Abs$enreg->idPassage' value='$enreg->idPassage'/></input></td>";
@@ -185,7 +183,6 @@ include"connexion_bd_gesoraux.php"
 							$valeur="";
 							$val_abs="";
 							if(isset($_POST['btn_valider'])== true){
-								echo 'cc';
 								extract($_POST);
 								
 								try{
@@ -209,12 +206,7 @@ include"connexion_bd_gesoraux.php"
 										}
 									}
 								} 
-								if($compt == 1){
-										$msg = "L'élève a bien été noté(e) absent(e)";
-									}else{
-										$msg = "Les élèves ont bien été notés absents";
-									}
-								echo $compt;
+								$msg = "La modification a bien été effectuée";	
 								echo $msg; 
 							}				
 					?>
