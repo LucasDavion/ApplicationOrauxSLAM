@@ -58,7 +58,7 @@
 							
 							<?php
 							include "connexion_bd_gesoraux.php";
-							//exécution de la requête (avec la méthode query) pour obtenir le contenu de la table lst_fonction
+							//exécution de la requête (avec la méthode query) pour obtenir le contenu de la table 
 							// on récupère le résultat de la requête dans le tableau $lesenregs
 							try{
 								$lesEnregs=$bdd->query("SELECT id, libelle from discipline");
@@ -69,10 +69,10 @@
 							//on teste si le select a retourné des enregistrement
 							if($lesEnregs->rowCount() > 0)
 							{
-								//pour chaque enregistrement retourné par la requête SQL, on créé une option dans la liste
+								//pour chaque enregistrement retourné par la requête SQL, on crée une option dans la liste
 								//l'attribut value contiendra l'id (l'identifiant de la fonction)
 								// et le libellé de la fonction sera affiché
-								//on lmit le tableau retourné et pour chaque enregistrement, on affiche le nom et la description
+								
 								foreach($lesEnregs as $enreg) {
 									if($lst_discipline == $enreg->id){
 										echo "<option class='form-group' selected value='$enreg->id'>$enreg->libelle</option>";
@@ -87,14 +87,14 @@
 					</div>
 				</div>
 				<!-- Liste déroulante avec les salles  -->
-				<div class="form-class">
+				<div class="form-group">
 					<label class="col-md-4"><b>Salle Attitrée</b></label>
 					<div class="col-md-12">
-						<select class="custom-select custom-select" name="lst_salle" id="salle">
+						<select class="custom-select custom-select" name="lst_salle" id="salle"><br>
 							<option value="0">Aucune</option>
 							<?php
 							include "connexion_bd_gesoraux.php";
-									//exécution de la requête (avec la méthode query) pour obtenir le contenu de la table lst_fonction
+									//exécution de la requête (avec la méthode query) pour obtenir le contenu de la table
 									// on récupère le résultat de la requête dans le tableau $lesenregs
 							try{
 								$lesEnregs=$bdd->query("SELECT id, libelle from salle");
@@ -105,10 +105,10 @@
 									//on teste si le select a retourné des enregistrement
 							if($lesEnregs->rowCount() > 0)
 							{
-										//pour chaque enregistrement retourné par la requête SQL, on créé une option dans la liste
-										//l'attribut value contiendra l'id (l'identifiant de la fonction)
-										// et le libellé de la fonction sera affiché
-										//on lmit le tableau retourné et pour chaque enregistrement, on affiche le nom et la description
+										//pour chaque enregistrement retourné par la requête SQL, on crée une option dans la liste
+										//l'attribut value contiendra l'id (l'identifiant de la salle)
+										// et le libellé de la salle sera affiché
+										
 								foreach($lesEnregs as $enreg) {
 									if($lst_salle == $enreg->id){
 										echo "<option class='form-group' selected value='$enreg->id'>$enreg->libelle</option>";

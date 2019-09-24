@@ -45,9 +45,10 @@ if(isset ($_POST['btn_valider'])==true){
 	if($msg=="")
 	{
       //on passe le nom et le prénom  en minuscule
-		$nom_min = strtolower($txt_nom);
-		$prenom_min = strtolower($txt_prenom);
-
+		$nom_min = mb_strtolower($txt_nom);
+		$prenom_min = mb_strtolower($txt_prenom);
+		echo $nom_min;
+		echo $prenom_min;
       //on récupère l'année en cours 
 		$annee = date("Y");
 
@@ -93,7 +94,6 @@ if(isset ($_POST['btn_valider'])==true){
 		} catch(PDOException $e){
 			echo("Err BDInsert  : erreur ajout table utilisateur dans admin_gestion_prof_ajout.php<br>
 				Message d'erreur :".$e->getMessage());
-				echo $identifiant;
 		}
 	}
 }

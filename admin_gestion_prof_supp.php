@@ -1,3 +1,11 @@
+<!-- select Utilisateur.id, profenseigdivision.idUtilisateur, choixprofdemijournee.idUtilisateur,traitement.id, passageepreuve.id  from Utilisateur 
+left outer join traitement on traitement.idUtilisateur = utilisateur.id 
+left outer join profenseigdivision on profenseigdivision.idUtilisateur = utilisateur.id
+left outer join choixprofdemijournee on choixprofdemijournee.idUtilisateur= utilisateur.id
+left outer join passageepreuve on passageepreuve.idProfChoix = utilisateur.id and passageepreuve.idProfAffecte = utilisateur.id
+where Utilisateur.id = 20-->
+
+
 <?php 
 	//include du script permettant de vérifier que l'on est connecté en tant qu'administrateur
 	//include "session_admin.php";
