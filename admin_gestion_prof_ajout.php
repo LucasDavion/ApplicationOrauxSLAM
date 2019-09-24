@@ -1,6 +1,6 @@
 <?php
 session_start();
-if(isset($_SESSION["idTypeUtilisateur"])==false || $_SESSION["idTypeUtilisateur"] != 1){
+if(isset($_SESSION["idTypeUtilisateur"])==false || $_SESSION["idTypeUtilisateur"] != 1){                                                                                                                                                                                                                                                                                                                                                                                                                     
 	header("Location: connexion_app.php");
 }
 
@@ -34,7 +34,7 @@ if(isset ($_POST['btn_valider'])==true){
 	if(isset ($txt_mail)==false || trim ($txt_mail)==""){
 		$msg=$msg."<br> Le mail est obligatoire";
 	}
-	if(isset ($lst_discipline)==false || trim ($lst_discipline)==""){
+	if(isset ($lst_discipline)==false || trim ($lst_discipline)==""){ 
 		$msg=$msg."<br> La discipline est obligatoire";
 	}
 	if(isset ($rbt_civilite)==false || trim ($rbt_civilite)==""){
@@ -53,7 +53,7 @@ if(isset ($_POST['btn_valider'])==true){
 
       //on génère le compte composé du prénom suivi du nom
 		$identifiant = $prenom_min.".".$nom_min;
-
+		
       //on génère le mot de passe composé des 2 premiers caractères du nom
       //suivis de l'année en cours suivie de 2 premiers caractères du prénom
 		$mot_de_passe_en_clair = substr($nom_min, 0,2).$annee.substr($prenom_min, 0,2);
@@ -61,15 +61,20 @@ if(isset ($_POST['btn_valider'])==true){
       //$mot_de_passe_crypte = sha1($identifiant.$mot_de_passe_en_clair);
 		$mot_de_passe_crypte = sha1($mot_de_passe_en_clair);
 
+		//Mettre la première lettre du prénom et du nom en majuscule 
+		$nom_prem_maj = ucfirst($txt_nom);
+		$prenom_prem_maj =  ucfirst($txt_prenom);
+
       // on prépare la requête insert
 		try {
-			$req=$bdd->prepare("INSERT into utilisateur values(0, :par_ident,:par_mdp,:par_mail, :par_nom, :par_prenom, :par_typeUtili,:par_salleAtt, :par_discipline,
-				:par_civilite)");
+			$req=$bdd->prepare("INSERT into utilisateur values(0, :par_ident,:par_mdp,:par_mail, :par_nom, :par_prenom, :par_typeUtili,:par_salleAtt, :par_discipline,:par_civilite)");
 			$req->bindValue (':par_ident', $identifiant, PDO::PARAM_STR);
 			$req->bindValue (':par_mdp',$mot_de_passe_crypte , PDO::PARAM_STR);
 			$req->bindValue (':par_mail',$txt_mail, PDO::PARAM_STR);
-			$req->bindValue (':par_nom', $nom_min, PDO::PARAM_STR);
-			$req->bindValue (':par_prenom', $prenom_min, PDO::PARAM_STR);
+			$req->bindValue (':par_nom', $nom_prem_maj, PDO::PARAM_STR);
+			//$req->bindValue (':par_nom', $nom_min, PDO::PARAM_STR);
+			$req->bindValue (':par_prenom', $prenom_prem_maj, PDO::PARAM_STR);
+			//$req->bindValue (':par_prenom', $prenom_min, PDO::PARAM_STR);
 			$req->bindValue (':par_typeUtili',"2", PDO::PARAM_INT);
 			if($lst_salle==0){
 				$req->bindValue (':par_salleAtt', null, PDO::PARAM_INT);
@@ -88,7 +93,7 @@ if(isset ($_POST['btn_valider'])==true){
 		} catch(PDOException $e){
 			echo("Err BDInsert  : erreur ajout table utilisateur dans admin_gestion_prof_ajout.php<br>
 				Message d'erreur :".$e->getMessage());
-
+				echo $identifiant;
 		}
 	}
 }
@@ -223,29 +228,3 @@ if(isset ($_POST['btn_valider'])==true){
 
 
 
-
-
-
-<!DOCTYPE html>
-<html lang="fr" dir="ltr">
-<head>
-	<meta charset="utf-8">
-	<meta name ="vieuwport" content="width=device-width, initial-scale-1.0">
-	<meta name="description" content="Site de gestion des oraux de langues">
-	<link rel="stylesheet" href="bootstrap.css">
-	<title>Ajout d'un professeur</title>
-</head>
-<body>
-	<div class="container">
-		<form class="" action = "admin_gestion_prof_ajout.php" method="post">
-			<h1 class="text-center">Ajout d'un professeur</h1>
-			<?php include "admin_gestion_prof_comp_graph.php"?>
-		</form>
-		<div class="col">
-		</div>
-	</div>
-</div>
-</div>
-</div>
-</body>
-</html>

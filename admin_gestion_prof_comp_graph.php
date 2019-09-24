@@ -10,16 +10,16 @@
 						<?php
 						echo"<div class='form-check form-check-inline'>";
 						if ($rbt_civilite =='1') {
-							echo "<input class='form-check-input' type='radio' checked name='rbt_civilite' id='mr' value='1'/> Monsieur";
-						}else{
 							echo "<input class='form-check-input' type='radio' name='rbt_civilite' id='mr' value='1'/> Monsieur";
+						}else{
+							echo "<input class='form-check-input' type='radio'  name='rbt_civilite' id='mr' value='1'/> Monsieur";
 						}
 						echo"</div>";
 						echo"<div class='form-check form-check-inline'>";
 						if($rbt_civilite=='2'){
 							echo "<input class='form-check-input' type='radio' checked name='rbt_civilite' id='mme' value='2'/> Madame";
 						}else{
-							echo "<input class='form-check-input' type='radio' name='rbt_civilite' id='mme' value='2'/> Madame";
+							echo "<input class='form-check-input' type='radio' checked name='rbt_civilite' id='mme' value='2'/> Madame";
 						}
 						echo"</div>";
 						?>
@@ -36,7 +36,7 @@
 
 				<!-- textbox contenant le prénom -->
 				<div class="form-group">
-					<label class="col-md-4"><b>Prénom </b></label>
+					<label class="col-md-4"><b>Prénom</b></label>
 					<div class="col-md-12">
 						<input class="form-control" type='text' placeholder="Saisissez le prénom"name="txt_prenom" id="prenom" value="<?php echo $txt_prenom; ?>"required />
 					</div>
@@ -44,7 +44,7 @@
 
 				<!-- textbox contenant le mail -->
 				<div class="form-group">
-					<label class="col-md-4"><b>Mail</label></b>
+					<label class="col-md-4"><b>Mail</b></label>
 					<div class="col-md-12">
 						<input  class="form-control" type='text' placeholder="Saisissez le mail" name="txt_mail" id="mail" value="<?php echo $txt_mail; ?>" required />
 					</div>
@@ -52,7 +52,7 @@
 
 				<!-- Liste déroulante avec les dicipline -->
 				<div class="form-group">
-					<label class="col-md-4"><b>Discipline</label></b>
+					<label class="col-md-4"><b>Discipline</b></label>
 					<div class="col-md-12">
 						<select class="custom-select custom-select" required name="lst_discipline" id="discipline">
 							
@@ -88,7 +88,7 @@
 				</div>
 				<!-- Liste déroulante avec les salles  -->
 				<div class="form-class">
-					<label class="col-md-4"><b>Salle Attitrée</label></b>
+					<label class="col-md-4"><b>Salle Attitrée</b></label>
 					<div class="col-md-12">
 						<select class="custom-select custom-select" name="lst_salle" id="salle">
 							<option value="0">Aucune</option>
@@ -128,7 +128,11 @@
 					<input class='btn btn-success btn-lg' type="submit" name="btn_valider" value="Valider" />
 				</div>
 			</div>
-			
+		</div>
+	</div>
+</div>
 
-			
+
+
+
 

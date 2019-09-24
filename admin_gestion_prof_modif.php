@@ -69,8 +69,11 @@ if(isset($_POST['btn_valider'])==true){
                     //on réalise la requête de mise à jour (update)
 			$req=$bdd->prepare("UPDATE utilisateur SET nom=:par_nom, prenom=:par_prenom, mail=:par_mail, idSalleAtt=:par_salle,idDiscipline=:par_discipline,
 				idCivilite=:par_civilite where id=$id");
-			$req->bindValue (':par_nom', $txt_nom, PDO::PARAM_STR);
-			$req->bindValue (':par_prenom', $txt_prenom, PDO::PARAM_STR);
+				//Mettre la première lettre du prénom et du nom en majuscule 
+				$nom_prem_maj = ucfirst($txt_nom);
+				$prenom_prem_maj =  ucfirst($txt_prenom);
+			$req->bindValue (':par_nom', $nom_prem_maj, PDO::PARAM_STR);
+			$req->bindValue (':par_prenom', $prenom_prem_maj, PDO::PARAM_STR);
 			$req->bindValue (':par_mail', $txt_mail, PDO::PARAM_STR);
 
 			if($lst_salle==0){
@@ -81,7 +84,7 @@ if(isset($_POST['btn_valider'])==true){
 			}
 
 			$req->bindValue (':par_discipline', $lst_discipline, PDO::PARAM_INT);
-			$req->bindValue (':par_civilitea', $rbt_civilite, PDO::PARAM_INT);
+			$req->bindValue (':par_civilite', $rbt_civilite, PDO::PARAM_INT);
 
 			$req->execute();
                     //on indique dans la variable $msg que tout s'est bien passé
