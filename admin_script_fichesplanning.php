@@ -12,13 +12,13 @@ if (isset($_POST["btn_tout-generer"]) == true) {
 }
 class PDF extends FPDF
 {
-// En-tête
-function Header()
-{
-  extract($_POST);
-  include "connexion_bd_gesoraux.php";
-  $leexam = $bdd->query("SELECT nom FROM NomExam");
-  $exam = $leexam->fetch();
+  // En-tête
+  function Header()
+  {
+    extract($_POST);
+    include "connexion_bd_gesoraux.php";
+    $leexam = $bdd->query("SELECT nom FROM NomExam");
+    $exam = $leexam->fetch();
     // Police Arial gras 15
     $this->SetFont('Arial','B',15);
     // Titre
@@ -42,16 +42,16 @@ function Header()
     $this->Cell(38,8,utf8_decode('Date'),1,0,'C');
     $this->Cell(20,8,utf8_decode('Heure'),1,0,'C');
     $this->Cell(20,8,utf8_decode('Salle'),1,0,'C');
-}
-// Pied de page
-function Footer()
-{
+  }
+  // Pied de page
+  function Footer()
+  {
     // Positionnement à 1,5 cm du bas
     $this->SetY(-15);
     // Police Arial italique 8
     $this->SetFont('Arial','I',8);
     // Numéro de page
-}
+  }
 }
 // Instanciation de la classe dérivée
 $pdf = new PDF();
@@ -88,7 +88,7 @@ foreach ($lesEleves as $eleve) {
 
       $pdf->SetX(91);
       // converti la date en chaine Ex.Lundi 12 juin 2019
-       $datefin = dateToFrench($epreuve->jourE,'l j F Y');
+      $datefin = dateToFrench($epreuve->jourE,'l j F Y');
       $pdf->Cell(20,5,utf8_decode("".$epreuve->disciplineE),1,0,'C');
       $pdf->Cell(38,5,utf8_decode("".$datefin),1,0,'C');
       $pdf->Cell(20,5,utf8_decode("".$epreuve->plagHoraireE),1,0,'C');
@@ -101,7 +101,7 @@ foreach ($lesEleves as $eleve) {
 
       $pdf->SetX(189);
       // converti la date en chaine Ex.Lundi 12 juin 2019
-       $datefin = dateToFrench($epreuve->jourE,'l j F Y');
+      $datefin = dateToFrench($epreuve->jourE,'l j F Y');
       $pdf->Cell(20,5,utf8_decode("".$epreuve->disciplineE),1,0,'C');
       $pdf->Cell(38,5,utf8_decode("".$datefin),1,0,'C');
       $pdf->Cell(20,5,utf8_decode("".$epreuve->plagHoraireE),1,0,'C');
