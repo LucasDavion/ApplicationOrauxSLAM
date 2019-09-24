@@ -10,7 +10,7 @@
 		<center><h1>Gestion des salles</h1><hr></center>
 		<div class=form-group>
 			<!-- Bouton pour accéder à admin_gestion_salle_ajout.php -->
-			<center><a href="admin_gestion_salle_ajout.php"><input type="submit" class="btn btn-success btn-lg" nane="ajout_salle" value="ajout d'une salle" /></a></center><br>
+			<center><a href="admin_gestion_salle_ajout.php"><input type="submit" class="btn btn-success btn-lg" nane="ajout_salle" value="Ajout d'une salle" /></a></center><br>
 			<?php
 			// connexion bdd
 			include "connexion_bd_gesoraux.php";
@@ -37,9 +37,9 @@
 					echo"<tr>";
 					echo"<td>$enreg->libelle</td>";
 					// redirection vers admin_gestion_salle_modification.php
-					echo"<td><a href='admin_gestion_salle_modification.php?id=$enreg->id'><input type='submit' class='btn btn-primary' name='btn_modif' value='modif' /></a></td>";
+					echo"<td><a href='admin_gestion_salle_modification.php?id=$enreg->id'><input type='submit' class='btn btn-primary' name='btn_modif' value='Modifier' /></a></td>";
 					// redirection vers admin_gestion_salle_suppression.php
-					echo "<td><a href='admin_gestion_salle_suppression.php?id=$enreg->id' onclick='return confirmer_suppres();'><input type='submit' class='btn btn-danger' name='btn_supp' value='supp' /></a></td>";
+					echo "<td><a href='admin_gestion_salle_suppression.php?id=$enreg->id' onclick='return confirmer_suppres();'><input type='submit' class='btn btn-danger' name='btn_supp' value='Supprimer' /></a></td>";
 					echo"</tr>";
 				}
 				echo "</table><br><br>";

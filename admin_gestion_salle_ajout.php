@@ -45,9 +45,9 @@ if(isset($_POST['btn_valider'])==true){
           <!-- formulaire -->
           <form class="form" action="admin_gestion_salle_ajout.php" method ="POST">
 
-           Salle :&nbsp;&nbsp;<input type='text'name='libelle' value="<?php echo $libelle ?>" size='20'/> <br><br>
+           Salle :&nbsp;&nbsp;<input type='text'name='libelle' value="<?php echo $libelle ?>" autofocus size='20'/> <br><br>
 
-           <input type="submit" class="btn btn-success" name="btn_valider" value="Envoyer" />
+           <input type="submit" class="btn btn-success" name="btn_valider" value="Valider" />
            <!-- affichage des possibles messages -->
            <?php echo $msg;?>
 

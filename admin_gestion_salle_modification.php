@@ -63,10 +63,10 @@ include "connexion_bd_gesoraux.php";
 					<!-- formulaire -->
 					<form class="form" action="admin_gestion_salle_modification.php" method ="POST">
 
-						Salle :&nbsp;&nbsp;<input type='text'name='libelle' value="<?php echo $libelle ?>" size='20'/> <br><br> 
+						Salle :&nbsp;&nbsp;<input type='text'name='libelle' autofocus value="<?php echo $libelle ?>" size='20'/> <br><br> 
 
 						<input type="hidden" name="id" value="<?php echo $id;?>">
-						<input type="submit" class="btn btn-success" name="btn_valider" value="Envoyer" />
+						<input type="submit" class="btn btn-success" name="btn_valider" value="Valider" />
 						<!-- affichage des possibles messages -->
 						<?php echo $msg;?>
 
