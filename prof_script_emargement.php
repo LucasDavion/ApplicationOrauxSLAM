@@ -28,16 +28,20 @@ function Header()
     FROM utilisateur
     WHERE  id = $lst_prof");
     $ptof = $leProf->fetch();
+    $nomProf = $ptof->nom;
+    $prenomProf = $ptof->prenom;
+    $dateencours = date('Y');
+
 
     // Police Arial gras 15
     $this->SetFont('Arial','B',15);
-
+    $this->SetTitle("Fiches d'émargement de $nomProf $prenomProf - $dateencours", "true");
     // Titre
     $this->Cell(0,10,'Emargement '.$exam->nom,1,0,'C');
     $dateencours = date('Y');
     $this->Text(15, 17,utf8_decode("Session $dateencours"));
     $this->SetXY(10,25);
-    $this->Cell(0,5,utf8_decode("$ptof->nom $ptof->prenom"),0,0,'C');
+    $this->Cell(0,5,utf8_decode("$nomProf $prenomProf"),0,0,'C');
     // Saut de ligne
     $this->Ln(0);
     $this->SetFont('Arial','',8);
@@ -69,6 +73,7 @@ function Footer()
 
 // Instanciation de la classe dérivée
 $pdf = new PDF();
+
 $pdf->AddPage("L","A4");
 $pdf->SetFont('Arial','',8);
 
@@ -114,7 +119,7 @@ if ($eleve->tiersTempsE == "O") {
 
   $pdf->Cell(56,5,utf8_decode(''),1,0,'C');
   $maxf = $maxf + 1;
-  if ($maxf == 24) {
+  if ($maxf == 29) {
     $pdf->AddPage("L","A4");
     $pdf->Ln(3);
     $maxf = 0;

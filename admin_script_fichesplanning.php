@@ -15,6 +15,7 @@ class PDF extends FPDF
 // En-tête
 function Header()
 {
+  extract($_POST);
   include "connexion_bd_gesoraux.php";
   $leexam = $bdd->query("SELECT nom FROM NomExam");
   $exam = $leexam->fetch();
@@ -22,7 +23,8 @@ function Header()
     $this->SetFont('Arial','B',15);
     // Titre
     $this->Cell(0,10,'Planing '.$exam->nom,1,0,'C');
-
+    $dateencours = date('Y');
+    $this->SetTitle("Fiches planning de la classe $lst_section - $dateencours", "true");
     $dateencours = date('Y');
     $this->Text(15, 17,utf8_decode("Session $dateencours"));
     // Saut de ligne

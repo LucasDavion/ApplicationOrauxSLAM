@@ -10,9 +10,10 @@ try {
 	$pdf = new PDF('P','mm','A4');
 	$pdf->AliasNbPages();
 	$pdf->AddPage();
-	$pdf->SetTitle("CONVOCATION", "true"); //Tire du doc en haut a gauche (hors page)
-	//variables future
 	$dateencours = date('Y');
+
+	//variables future
+
 
 	$leexam = $bdd->query("SELECT nom FROM NomExam");
 	$exam = $leexam->fetch();
@@ -30,12 +31,22 @@ extract($_POST);
 
 if (isset($_POST["btn_tout-generer"]) == true) {
   $lesEleves = $bdd->query("SELECT Distinct nomE, prenomE, divisionE, idE FROM elevespassantep");
+	$pdf->SetTitle("Toutes les convocations - $dateencours", "true");
 } else {
   if (isset($_POST["btn_genererclasse"]) == true) {
     $lesEleves = $bdd->query("SELECT Distinct nomE, prenomE, divisionE, idE FROM elevespassantep WHERE divisionE = '$lst_section' ");
+
+		$pdf->SetTitle("Convocations de la classe $lst_section - $dateencours", "true");
   } else {
     if (isset($_POST["btn_generereleve"]) == true) {
       $lesEleves = $bdd->query("SELECT Distinct nomE, prenomE, divisionE, idE FROM elevespassantep WHERE idE = $lst_eleve ");
+			$lInfo = $bdd->query("SELECT nom, prenom FROM eleve WHERE id =$lst_eleve");
+			$uneInfo = $lInfo->fetch();
+
+			$nomEleve = $uneInfo->nom;
+			$prenomEleve = $uneInfo->prenom;
+
+			$pdf->SetTitle("Convocation pour $nomEleve $prenomEleve - $dateencours", "true");
     } else {
       echo "erreur";
     }
