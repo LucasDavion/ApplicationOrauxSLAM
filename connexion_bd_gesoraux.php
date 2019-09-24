@@ -1,6 +1,6 @@
 <?php
 	
-	$hote = '10.1.3.10';
+	$hote = '10.1.3.252';
 	$utilisateur = 'compte_application'; //identifiant de connexion à la base de données
 	$mdp = 'application';   			  //mot de passe de l'identifiant
 	$nombdd = 'bd_gesoraux'; 			//nom de la base de données
