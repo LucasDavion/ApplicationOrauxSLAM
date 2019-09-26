@@ -94,6 +94,9 @@ foreach ($lesEleves as $eleve) {
       $pdf->Cell(20,5,utf8_decode("".$epreuve->plagHoraireE),1,0,'C');
       $pdf->Cell(20,5,utf8_decode("".$epreuve->salleE),1,0,'C');
 
+    }else {
+      $pdf->SetX(91);
+      $pdf->Cell(98,5,utf8_decode(""),1,0,'C');
     }
 
     if ($epreuve->epreuveE == 'LV2') {
@@ -107,6 +110,9 @@ foreach ($lesEleves as $eleve) {
       $pdf->Cell(20,5,utf8_decode("".$epreuve->plagHoraireE),1,0,'C');
       $pdf->Cell(20,5,utf8_decode("".$epreuve->salleE),1,0,'C');
 
+    }else {
+      $pdf->SetX(189);
+      $pdf->Cell(98,5,utf8_decode(""),1,0,'C');
     }
   }
 
