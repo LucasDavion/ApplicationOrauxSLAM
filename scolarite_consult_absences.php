@@ -6,16 +6,7 @@ if(isset($_POST['lst_demijournee'])==true){
 	$lst_demijournee=0;
 }
 ?>
-<!DOCTYPE html>
-<html lang="fr">
-<head>
-	<meta charset="UTF-8">
-	<link rel="stylesheet" href="css/bootstrap.css">
-	<link rel="stylesheet" href="css/bootstrap-grid.css">
-	<link rel="stylesheet" href="css/bootstrap-reboot.css">
-	<title>Consultation des absences</title>
-</head>
-<body>
+ <?php include "assets_haut_sco.php"?>
 	<div class="container">
 		<h1><center>Consultation des absences</center></h1>
 		<?php 
@@ -139,5 +130,4 @@ if(isset($_POST['lst_demijournee'])==true){
 	}
 	?>
 </div>
-</body>
-</html>
+ <?php include "assets_bas.php"?>

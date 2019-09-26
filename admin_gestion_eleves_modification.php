@@ -1,10 +1,4 @@
 
-<?php
-session_start();
-if(isset($_SESSION["idTypeUtilisateur"])==false || $_SESSION["idTypeUtilisateur"] != 1){
-    header("Location: connexion_app.php");
-}
-?>
 <?php 
 	$msg="";
 	$txt_nom="";
@@ -148,34 +142,9 @@ if(isset($_SESSION["idTypeUtilisateur"])==false || $_SESSION["idTypeUtilisateur"
 	}
 	}			
 ?>
-<!doctype html>
-<html class="no-js" lang="fr-FR">
 
-<head>
-    <meta charset="utf-8">
-    <meta http-equiv="x-ua-compatible" content="ie=edge">
-    <title>Application</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="shortcut icon" type="image/png" href="assets/images/icon/icon.ico">
-    <link rel="stylesheet" href="assets/css/bootstrap.min.css">
-    <link rel="stylesheet" href="assets/css/font-awesome.min.css">
-    <link rel="stylesheet" href="assets/css/themify-icons.css">
-    <link rel="stylesheet" href="assets/css/metisMenu.css">
-    <link rel="stylesheet" href="assets/css/owl.carousel.min.css">
-    <link rel="stylesheet" href="assets/css/slicknav.min.css">
-    <!-- amchart css -->
-    <link rel="stylesheet" href="https://www.amcharts.com/lib/3/plugins/export/export.css" type="text/css" media="all" />
-    <!-- others css -->
-    <link rel="stylesheet" href="assets/css/typography.css">
-    <link rel="stylesheet" href="assets/css/default-css.css">
-    <link rel="stylesheet" href="assets/css/styles.css">
-    <link rel="stylesheet" href="assets/css/responsive.css">
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
-    <!-- modernizr css -->
-    <script src="assets/js/vendor/modernizr-2.8.3.min.js"></script>
-</head>
-
-<body>
+<?php include "assets_haut_admin.php"?>
+<div class="container">
 	<form method='POST'>
 		<?php
 			include"admin_gestion_eleves_composant_graph.php";
@@ -278,10 +247,12 @@ if(isset($_SESSION["idTypeUtilisateur"])==false || $_SESSION["idTypeUtilisateur"
 		<input type="hidden" name="idEle" value="<?php echo $idEle;?>"/> 
 		<input type="hidden" name="idEpre" value="<?php echo $idEpre;?>"/>
 			
-</form>	
+</form>
+</div>	
 		<?php
 			echo $msg;
 		?>	
 </section>
 	</body>
 </html>
+<?php include "assets_bas.php"?>
