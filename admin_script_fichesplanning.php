@@ -27,6 +27,8 @@ class PDF extends FPDF
     $this->SetTitle("Fiches planning de la classe $lst_section - $dateencours", "true");
     $dateencours = date('Y');
     $this->Text(15, 17,utf8_decode("Session $dateencours"));
+    //$this->Text(260, 17,utf8_decode("$lst_section"));
+    $this->Cell(0,10,utf8_decode("$lst_section"."  "),1,0,'R');
     // Saut de ligne
     $this->Ln(15);
     $this->SetFont('Arial','',8);
