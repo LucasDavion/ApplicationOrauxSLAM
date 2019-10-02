@@ -22,7 +22,7 @@ class PDF extends FPDF
     // Police Arial gras 15
     $this->SetFont('Arial','B',15);
     // Titre
-    $this->Cell(0,10,'Planing '.$exam->nom,1,0,'C');
+    $this->Cell(0,10,'Planning '.$exam->nom,1,0,'C');
     $dateencours = date('Y');
     $this->SetTitle("Fiches planning de la classe $lst_section - $dateencours", "true");
     $dateencours = date('Y');
